@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pankaj Construction Quotation</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(90deg, #2e7d32, #4caf50);
+      color: white;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header img {
+      width: 80px;
+      height: auto;
+      border-radius: 5px;
+    }
+    h1 { margin: 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #e8f5e9;
+    }
+    input[type="text"], input[type="date"] {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+      width: 250px;
+      margin-bottom: 10px;
+    }
+    .btn {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover { background-color: #1b5e20; }
+    .remove { background: #e53935; color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; }
+    .remove:hover { background: #b71c1c; }
+    .subtotal {
+      text-align: right;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .receiver {
+      color: #2e7d32;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="quotation">
+  <div class="header">
+    <img src="https://raw.githubusercontent.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>/main/1000150992.jpg" alt="Pankaj Construction Logo">
+    <div>
+      <h1>Pankaj Construction</h1>
+      <p>Hno. 750/A Portawado, Siolim Goa</p>
+      <p>Phone: 7796174991</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <label>Client Name: </label>
+    <input type="text" id="clientName" placeholder="Enter client name">
+    <label style="margin-left: 20px;">Invoice Date: </label>
+    <input type="date" id="invoiceDate">
+  </div>
+
+  <table id="itemTable">
+    <thead>
+      <tr id="tableHeader">
+        <th>Particulars</th>
+        <th>Size</th>
+        <th>Rate</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button class="btn" onclick="addRow()">+ Add Row</button>
+  <button class="btn" id="toggleLabourBtn" onclick="toggleLabour()">+ Add Labour Charges Column</button>
+
+  <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00 /-</div>
+
+  <div class="receiver">Receiver Bank Details</div>
+  <div>
+    <label>Bank No:</label><br>
+    <input type="text" id="bankNo" placeholder="Enter Bank Number"><br>
+    <label>Bank Name:</label><br>
+    <input type="text" id="bankName" placeholder="Enter Bank Name">
+  </div>
+
+  <button class="btn" onclick="generatePDF()">Generate PDF</button>
+</div>
+
+<script>
+  let labourAdded = false;
+
+  function addRow() {
+    const tbody = document.querySelector("#itemTable tbody");
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td contenteditable="true"></td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true"></td>
+      ${labourAdded ? `<td contenteditable="true"></td>` : ""}
+      <td contenteditable="true" class="amount" oninput="calculateSubtotal()"></td>
+      <td><button class="remove" onclick="removeRow(this)">X</button></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  function removeRow(btn) {
+    btn.parentElement.parentElement.remove();
+    calculateSubtotal();
+  }
+
+  function toggleLabour() {
+    const table = document.getElementById("itemTable");
+    const header = document.getElementById("tableHeader");
+    const rows = table.querySelectorAll("tbody tr");
+    const btn = document.getElementById("toggleLabourBtn");
+
+    if (!labourAdded) {
+      const th = document.createElement("th");
+      th.textContent = "Labour Charges";
+      header.insertBefore(th, header.children[3]); // Insert before Amount
+      rows.forEach(row => {
+        const td = document.createElement("td");
+        td.contentEditable = "true";
+        row.insertBefore(td, row.children[3]);
+      });
+      btn.textContent = "- Remove Labour Charges Column";
+      labourAdded = true;
+    } else {
+      const index = Array.from(header.children).findIndex(th => th.textContent === "Labour Charges");
+      if (index !== -1) header.removeChild(header.children[index]);
+      rows.forEach(row => {
+        if (row.children[index]) row.removeChild(row.children[index]);
+      });
+      btn.textContent = "+ Add Labour Charges Column";
+      labourAdded = false;
+    }
+  }
+
+  function calculateSubtotal() {
+    let subtotal = 0;
+    document.querySelectorAll(".amount").forEach(td => {
+      const val = parseFloat(td.textContent.trim()) || 0;
+      subtotal += val;
+    });
+    document.getElementById("subtotal").textContent = `Subtotal: ₹ ${subtotal.toFixed(2)} /-`;
+  }
+
+  function generatePDF() {
+    const clientName = document.getElementById("clientName").value || "Nil";
+    const invoiceDate = document.getElementById("invoiceDate").value || "Nil";
+    const bankNo = document.getElementById("bankNo").value || "Nil";
+    const bankName = document.getElementById("bankName").value || "Nil";
+
+    const clone = document.getElementById("quotation").cloneNode(true);
+    clone.querySelectorAll("button").forEach(btn => btn.remove());
+    clone.querySelectorAll("input").forEach(input => {
+      const span = document.createElement("span");
+      span.textContent = input.value || "Nil";
+      input.parentNode.replaceChild(span, input);
+    });
+
+    const opt = {
+      margin: 10,
+      filename: `Quotation_${clientName}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    };
+    html2pdf().set(opt).from(clone).save();
+  }
+
+  window.addEventListener("DOMContentLoaded", () => addRow());
+</script>
+</body>
+</html>
