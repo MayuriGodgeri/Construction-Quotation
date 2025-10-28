@@ -1,429 +1,274 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pankaj Construction — Quotation</title>
-
-  <!-- html2pdf -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pankaj Construction Quotation</title>
   <style>
-    :root{
-      --green-dark:#2e7d32;
-      --green-mid:#43a047;
-      --green-button:#2f7a3e;
-      --muted:#6b6b6b;
-    }
-    *{box-sizing:border-box}
-    body{
-      font-family: "Segoe UI", Roboto, Arial, sans-serif;
-      background:#f6f7f8;
-      margin:0;
-      padding:28px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
     }
 
-    .card{
-      max-width:980px;
-      margin:0 auto;
-      background:#fff;
-      border-radius:10px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.06);
-      overflow:hidden;
+    .header {
+      background: linear-gradient(to right, #2d7a32, #4caf50);
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
     }
 
-    /* header */
-    .header{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      padding:18px 28px;
-      background:linear-gradient(90deg,var(--green-dark),var(--green-mid));
-      color:#fff;
-    }
-    .logo-wrap{
-      background:#fff;
-      padding:8px;
-      border-radius:10px;
-      display:inline-block;
-      box-shadow:0 3px 10px rgba(0,0,0,0.08);
-    }
-    .logo{
-      height:72px;
-      width:auto;
-      display:block;
-    }
-    .company h1{
-      margin:0;
-      font-size:28px;
-      font-weight:700;
-      letter-spacing:0.2px;
-    }
-    .company p{ margin:6px 0 0 0; font-size:14px; color:rgba(255,255,255,0.95); }
-
-    .body{
-      padding:22px 28px 30px 28px;
+    .header img {
+      width: 70px;
+      height: 70px;
+      margin-right: 20px;
+      border-radius: 8px;
     }
 
-    .top-row{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    label{ font-weight:600; margin-right:8px; color:#222; }
-    input[type="text"], input[type="date"], input[type="number"]{
-      padding:8px 10px;
-      border:1px solid #d9dcdc;
-      border-radius:6px;
-      font-size:14px;
-      min-width:180px;
+    .header div {
+      line-height: 1.4;
     }
 
-    /* table */
-    .table-wrap{ overflow:auto; margin-top:10px; }
-    table{ width:100%; border-collapse:collapse; min-width:720px; }
-    thead th{
-      padding:12px;
-      background:#eaf3ea;
-      color:#1b5e20;
-      font-weight:700;
-      text-align:left;
-      border-bottom:1px solid #dfe7df;
-    }
-    tbody td{
-      padding:10px 12px;
-      border-bottom:1px solid #eee;
-      vertical-align:top;
-    }
-    td[contenteditable="true"]{ min-height:28px; outline:none; }
-    .amount-cell{ text-align:right; }
-
-    .controls{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-    .btn{
-      background:var(--green-button);
-      color:#fff;
-      border:none;
-      padding:10px 16px;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:700;
-      box-shadow:0 3px 0 rgba(0,0,0,0.04);
-    }
-    .btn.secondary{ background:#ff9800; } /* remove labour */
-    .btn.ghost{ background:#fff; color:var(--green-button); border:1px solid #d6e9d6; font-weight:700; }
-
-    .remove-row{
-      background:#e24e4e;
-      color:#fff;
-      border:none;
-      padding:6px 8px;
-      border-radius:6px;
-      cursor:pointer;
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
     }
 
-    .subtotal{
-      text-align:right;
-      margin-top:12px;
-      font-weight:800;
-      font-size:18px;
-      color:#111;
+    .header p {
+      margin: 3px 0;
+      font-size: 14px;
     }
 
-    .bank{
-      margin-top:22px;
-    }
-    .bank h3{ color:var(--green-dark); margin:0 0 8px 0; }
-    .bank input{ width:100%; padding:10px; border-radius:6px; border:1px solid #cfcfcf; }
-
-    .pdf-btn{
-      margin-top:18px;
-      background:linear-gradient(180deg,#0b63d6,#0753b8);
-      padding:10px 20px;
-      border-radius:8px;
-      color:#fff;
-      border:none;
-      font-weight:700;
-      cursor:pointer;
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 0 0 10px 10px;
     }
 
-    /* responsive */
-    @media (max-width:780px){
-      .header{ padding:14px; gap:12px; }
-      .company h1{ font-size:20px; }
-      .top-row{ flex-direction:column; align-items:flex-start; gap:8px; }
-      table{ min-width:600px; }
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 5px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #e8f5e9;
+    }
+
+    button {
+      background: #388e3c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      margin: 10px 5px 10px 0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #2e7d32;
+    }
+
+    .remove-btn {
+      background: #e53935;
+    }
+
+    .remove-btn:hover {
+      background: #c62828;
+    }
+
+    h3 {
+      color: #2e7d32;
+    }
+
+    .bank-details input {
+      width: 250px;
+      display: block;
+    }
+
+    .subtotal {
+      text-align: right;
+      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
-<div class="card" id="page">
-  <!-- Header: logo left, company text right -->
   <div class="header">
-    <div class="logo-wrap">
-      <!-- RAW GitHub path to your uploaded image file -->
-      <img class="logo" src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.jpg" alt="Pankaj Construction Logo">
-    </div>
-    <div class="company">
+    <img src="1000150992.jpg" alt="Logo">
+    <div>
       <h1>Pankaj Construction</h1>
-      <p>Hno. 750/A Portawado, Siolim Goa<br>Phone: 7796174991</p>
+      <p>Hno. 750/A Portawado, Siolim Goa</p>
+      <p>Phone: 7796174991</p>
     </div>
   </div>
 
-  <!-- Body -->
-  <div class="body">
-    <div class="top-row">
-      <div>
-        <label>Client Name:</label>
-        <input type="text" id="clientName" placeholder="Enter client name">
-      </div>
-
-      <div>
-        <label>Invoice Date:</label>
-        <input type="date" id="invoiceDate">
-      </div>
+  <div class="container">
+    <div>
+      <label>Client Name:</label>
+      <input type="text" id="clientName" placeholder="Enter client name" />
+      <label>Invoice Date:</label>
+      <input type="date" id="invoiceDate" />
     </div>
 
-    <div class="table-wrap">
-      <table id="itemsTable" role="table" aria-label="Quotation items">
-        <thead>
-          <tr id="tableHeader">
-            <th style="width:34%;">Particulars</th>
-            <th style="width:16%;">Size</th>
-            <th style="width:14%;">Rate</th>
-            <th style="width:14%;">Amount</th>
-            <th style="width:12%;">Action</th>
-          </tr>
-        </thead>
-        <tbody id="itemsBody">
-          <!-- starts empty -->
-        </tbody>
-      </table>
-    </div>
+    <table id="quotationTable">
+      <thead>
+        <tr>
+          <th>Particulars</th>
+          <th>Size</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-    <div class="controls">
-      <button class="btn" onclick="addRow()">+ Add Row</button>
-      <button class="btn" id="toggleLabourBtn" onclick="toggleLabour()">+ Add Labour Charges</button>
-      <button class="btn secondary" id="removeLabourBtn" onclick="removeLabour()" style="display:none">- Remove Labour Charges</button>
-    </div>
+    <button onclick="addRow()">+ Add Row</button>
+    <button id="labourBtn" onclick="addLabourColumn()">+ Add Labour Charges</button>
 
-    <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00 /-</div>
+    <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
 
-    <div class="bank">
-      <h3>Receiver Bank Details</h3>
+    <h3>Receiver Bank Details</h3>
+    <div class="bank-details">
       <label>Bank No:</label>
-      <input type="text" id="bankNo" placeholder="Enter Bank Number">
-      <label style="display:block; margin-top:8px;">Bank Name:</label>
-      <input type="text" id="bankName" placeholder="Enter Bank Name">
+      <input type="text" id="bankNo" placeholder="Enter Bank Number" />
+      <label>Bank Name:</label>
+      <input type="text" id="bankName" placeholder="Enter Bank Name" />
     </div>
 
-    <button class="pdf-btn" onclick="generatePDF()">Generate PDF</button>
+    <button onclick="generatePDF()">Generate PDF</button>
   </div>
-</div>
 
-<script>
-  // state
-  let labourAdded = false;
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    let hasLabour = false;
 
-  // add a new row consistent with current columns
-  function addRow(initialValues = {}) {
-    const tbody = document.getElementById('itemsBody');
-    const tr = document.createElement('tr');
+    function addRow() {
+      const table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
+      const row = table.insertRow();
 
-    // If labourAdded is true, columns order: Particulars, Size, Rate, Labour, Amount, Action
-    // else: Particulars, Size, Rate, Amount, Action
-    if (labourAdded) {
-      tr.innerHTML = `
-        <td contenteditable="true">${initialValues.particulars || ''}</td>
-        <td contenteditable="true">${initialValues.size || ''}</td>
-        <td contenteditable="true">${initialValues.rate || ''}</td>
-        <td contenteditable="true">${initialValues.labour || ''}</td>
-        <td contenteditable="true" class="amount">${initialValues.amount || ''}</td>
-        <td><button class="remove-row" onclick="removeRow(this)">X</button></td>
+      row.innerHTML = `
+        <td><input type="text" placeholder="Enter particulars" /></td>
+        <td><input type="text" placeholder="Enter size" /></td>
+        <td><input type="number" placeholder="Rate" oninput="updateSubtotal()" /></td>
+        <td><input type="number" placeholder="Amount" oninput="updateSubtotal()" /></td>
+        <td><button class='remove-btn' onclick='removeRow(this)'>X</button></td>
       `;
-    } else {
-      tr.innerHTML = `
-        <td contenteditable="true">${initialValues.particulars || ''}</td>
-        <td contenteditable="true">${initialValues.size || ''}</td>
-        <td contenteditable="true">${initialValues.rate || ''}</td>
-        <td contenteditable="true" class="amount">${initialValues.amount || ''}</td>
-        <td><button class="remove-row" onclick="removeRow(this)">X</button></td>
-      `;
+
+      if (hasLabour && !row.querySelector(".labour")) {
+        const labourCell = row.insertCell(4);
+        labourCell.innerHTML = `<input type="number" class="labour" placeholder="Labour" oninput="updateSubtotal()" />`;
+        const actionCell = row.insertCell(5);
+        actionCell.innerHTML = `<button class='remove-btn' onclick='removeRow(this)'>X</button>`;
+      }
+      updateSubtotal();
     }
 
-    // when amount changes (manual), update subtotal
-    const observer = new MutationObserver(calculateSubtotal);
-    // observe the amount cell text changes
-    function attachObserver() {
-      const amountCell = tr.querySelector('.amount');
-      if (amountCell) {
-        observer.disconnect();
-        observer.observe(amountCell, { characterData: true, subtree: true, childList: true });
+    function removeRow(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+      updateSubtotal();
+    }
+
+    function addLabourColumn() {
+      if (!hasLabour) {
+        const headerRow = document.querySelector("#quotationTable thead tr");
+        const labourTh = document.createElement("th");
+        labourTh.textContent = "Labour Charges";
+        headerRow.insertBefore(labourTh, headerRow.lastElementChild);
+
+        document.querySelectorAll("#quotationTable tbody tr").forEach(row => {
+          const cell = row.insertCell(row.cells.length - 1);
+          cell.innerHTML = `<input type="number" class="labour" placeholder="Labour" oninput="updateSubtotal()" />`;
+        });
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "− Remove Labour Charges";
+        removeBtn.id = "removeLabourBtn";
+        removeBtn.onclick = removeLabourColumn;
+        document.getElementById("labourBtn").after(removeBtn);
+
+        hasLabour = true;
       }
     }
-    // Also listen for input events (contenteditable)
-    tr.addEventListener('input', (e) => {
-      // if edited amount cell - recalc
-      if (e.target && e.target.classList && e.target.classList.contains('amount')) calculateSubtotal();
-    });
 
-    tbody.appendChild(tr);
-    attachObserver();
-    calculateSubtotal();
-  }
-
-  function removeRow(button) {
-    const tr = button.closest('tr');
-    if (tr) tr.remove();
-    calculateSubtotal();
-  }
-
-  // toggle labour column: add or remove
-  function toggleLabour() {
-    if (!labourAdded) {
-      addLabourColumn();
-    }
-  }
-
-  function addLabourColumn() {
-    if (labourAdded) return;
-    // modify header
-    const headerRow = document.getElementById('tableHeader');
-    const amountHeader = headerRow.children[3]; // current Amount header
-    const labourHeader = document.createElement('th');
-    labourHeader.textContent = 'Labour Charges';
-    labourHeader.style.width = '14%';
-    headerRow.insertBefore(labourHeader, amountHeader);
-
-    // update each existing row by inserting a labour cell before amount
-    const rows = document.querySelectorAll('#itemsBody tr');
-    rows.forEach(row => {
-      // create labour cell
-      const labourTd = document.createElement('td');
-      labourTd.contentEditable = 'true';
-      // when labour changed, user might want to update amount manually; amount remains manual
-      row.insertBefore(labourTd, row.children[3]);
-    });
-
-    labourAdded = true;
-    document.getElementById('toggleLabourBtn').style.display = 'none';
-    document.getElementById('removeLabourBtn').style.display = 'inline-block';
-  }
-
-  function removeLabour() {
-    if (!labourAdded) return;
-    const headerRow = document.getElementById('tableHeader');
-    // find labour header index
-    let idx = -1;
-    for (let i = 0; i < headerRow.children.length; i++){
-      if (headerRow.children[i].textContent.trim() === 'Labour Charges'){
-        idx = i; break;
+    function removeLabourColumn() {
+      const headerRow = document.querySelector("#quotationTable thead tr");
+      const labourTh = headerRow.querySelector("th:nth-last-child(2)");
+      if (labourTh && labourTh.textContent === "Labour Charges") {
+        headerRow.removeChild(labourTh);
       }
+
+      document.querySelectorAll("#quotationTable tbody tr").forEach(row => {
+        const labourCell = row.querySelector(".labour");
+        if (labourCell) labourCell.closest("td").remove();
+      });
+
+      document.getElementById("removeLabourBtn").remove();
+      hasLabour = false;
+      updateSubtotal();
     }
-    if (idx !== -1) headerRow.removeChild(headerRow.children[idx]);
 
-    // remove labour cell from each row
-    const rows = document.querySelectorAll('#itemsBody tr');
-    rows.forEach(row => {
-      if (row.children[idx]) row.removeChild(row.children[idx]);
-    });
+    function updateSubtotal() {
+      let subtotal = 0;
+      document.querySelectorAll("#quotationTable tbody tr").forEach(row => {
+        const rate = parseFloat(row.cells[2]?.querySelector("input")?.value) || 0;
+        const amount = parseFloat(row.cells[3]?.querySelector("input")?.value) || 0;
+        const labour = hasLabour ? parseFloat(row.querySelector(".labour")?.value) || 0 : 0;
+        subtotal += rate + amount + labour;
+      });
+      document.getElementById("subtotal").textContent = `Subtotal: ₹ ${subtotal.toFixed(2)}`;
+    }
 
-    labourAdded = false;
-    document.getElementById('toggleLabourBtn').style.display = 'inline-block';
-    document.getElementById('removeLabourBtn').style.display = 'none';
-    calculateSubtotal();
-  }
-
-  // sum amounts (Amount column only)
-  function calculateSubtotal() {
-    let total = 0;
-    const rows = document.querySelectorAll('#itemsBody tr');
-    rows.forEach(row => {
-      const amountIndex = labourAdded ? 4 : 3;
-      const amountCell = row.children[amountIndex];
-      if (!amountCell) return;
-      const raw = amountCell.innerText.replace(/[,₹\s/-]/g,'').trim();
-      const val = parseFloat(raw);
-      if (!isNaN(val)) total += val;
-    });
-    document.getElementById('subtotal').textContent = `Subtotal: ₹ ${total.toFixed(2)} /-`;
-  }
-
-  // PDF generation: clone page, convert inputs/contenteditable to text, bank fields default to nill
-  function generatePDF() {
-    const orig = document.getElementById('page');
-    const clone = orig.cloneNode(true);
-
-    // remove buttons from clone
-    clone.querySelectorAll('button').forEach(b => b.remove());
-
-    // replace input elements with text nodes in clone
-    clone.querySelectorAll('input').forEach(inp => {
-      const val = (inp.value || '').trim();
-      const txt = document.createElement('div');
-      // For bank no/name default to 'nill' if empty
-      if (inp.id === 'bankNo' || inp.id === 'bankName') {
-        txt.innerText = val !== '' ? val : 'nill';
-      } else if (inp.id === 'clientName') {
-        txt.innerText = val !== '' ? val : '-';
-      } else if (inp.type === 'date') {
-        txt.innerText = val !== '' ? formatDate(val) : '-';
-      } else {
-        txt.innerText = val;
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p", "pt", "a4");
+      const element = document.querySelector(".container");
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = 550;
+      const pageHeight = 780;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+      pdf.addImage(imgData, "PNG", 25, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 25, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
       }
-      inp.parentNode.replaceChild(txt, inp);
-    });
-
-    // convert contenteditable cells to plain text (they already render as text, but ensure no editing UI)
-    clone.querySelectorAll('[contenteditable]').forEach(el => {
-      const text = document.createElement('div');
-      text.innerText = el.innerText || '';
-      el.parentNode.replaceChild(text, el);
-    });
-
-    // ensure logo images use absolute URLs (they already do) - OK
-
-    // now generate PDF from clone
-    const opt = {
-      margin: [10,10,10,10],
-      filename: `${(document.getElementById('clientName').value||'Client').replace(/\s+/g,'_')}_Quotation.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, allowTaint: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    // wrap clone in container to ensure proper rendering
-    const wrapper = document.createElement('div');
-    wrapper.style.background = '#fff';
-    wrapper.appendChild(clone);
-
-    html2pdf().set(opt).from(wrapper).save();
-  }
-
-  // helper to format yyyy-mm-dd -> dd-mm-yyyy
-  function formatDate(val) {
-    if (!val) return '-';
-    const parts = val.split('-'); // yyyy-mm-dd
-    if (parts.length !==3) return val;
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
-  }
-
-  // initialize with one empty row
-  window.addEventListener('DOMContentLoaded', () => {
-    addRow();
-    // observe mutations in items body to recalc subtotal automatically
-    const observer = new MutationObserver(calculateSubtotal);
-    observer.observe(document.getElementById('itemsBody'), { childList:true, subtree:true, characterData:true });
-  });
-</script>
-
+      pdf.save("Quotation.pdf");
+    }
+  </script>
 </body>
 </html>
