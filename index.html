@@ -4,324 +4,373 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pankaj Construction Quotation</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
-    body {
-        font-family: "Poppins", sans-serif;
-        background: #fafafa;
-        margin: 0;
-        padding: 0;
-    }
 
-    .quotation-box {
-        width: 90%;
-        max-width: 1100px;
-        background: #fff;
-        margin: 20px auto;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        background: linear-gradient(90deg, #2e7d32, #43a047);
-        color: white;
-        padding: 20px;
-        border-radius: 12px 12px 0 0;
-    }
-
-    .header img {
-        height: 70px;
-        width: 70px;
-        margin-right: 20px;
-        background: white;
-        border-radius: 10px;
-        padding: 5px;
-    }
-
-    .header-text h1 {
-        margin: 0;
-        font-size: 26px;
-        font-weight: bold;
-    }
-
-    .header-text p {
-        margin: 4px 0;
-        font-size: 15px;
-    }
-
-    .details {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-        flex-wrap: wrap;
-    }
-
-    .details label {
-        font-weight: 600;
-        margin-right: 10px;
-    }
-
-    .details input {
-        padding: 8px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        width: 200px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 10px;
-    }
-
-    th, td {
-        border: 1px solid #c8e6c9;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #e8f5e9;
-        font-weight: bold;
-    }
-
-    td input {
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 6px;
-    }
-
-    .buttons {
-        margin: 10px 0;
-    }
-
-    .buttons button {
-        background: #2e7d32;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        margin-right: 10px;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    .buttons button:hover {
-        background: #1b5e20;
-    }
-
-    .subtotal {
-        text-align: right;
-        font-weight: bold;
-        margin-top: 10px;
-        font-size: 16px;
-    }
-
-    .bank-details {
-        margin-top: 25px;
-    }
-
-    .bank-details h3 {
-        color: #2e7d32;
-    }
-
-    .bank-details input {
-        width: 250px;
-        padding: 6px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-    }
-
-    #generate-pdf {
-        background: #2e7d32;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    #generate-pdf:hover {
-        background: #1b5e20;
-    }
-
-    .hide-in-pdf {
-        display: block;
-    }
-
-    @media print {
-        .hide-in-pdf {
-            display: none !important;
-        }
-    }
-.bank-details {
-    margin-top: 25px;
+body{
+font-family:"Poppins",sans-serif;
+background:#fafafa;
+margin:0;
+padding:0;
 }
 
-.bank-details h3 {
-    color: #2e7d32;
-    margin-bottom: 10px;
+.quotation-box{
+width:90%;
+max-width:1100px;
+background:#fff;
+margin:20px auto;
+padding:20px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.bank-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+.header{
+display:flex;
+align-items:center;
+background:linear-gradient(90deg,#2e7d32,#43a047);
+color:white;
+padding:20px;
+border-radius:12px 12px 0 0;
 }
 
-.bank-row label {
-    font-weight: 600;
+.header img{
+height:70px;
+width:70px;
+margin-right:20px;
+background:white;
+border-radius:10px;
+padding:5px;
 }
 
-.bank-row input {
-    flex: 1;
-    min-width: 180px;
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.header-text h1{
+margin:0;
+font-size:26px;
+font-weight:bold;
+}
+
+.header-text p{
+margin:4px 0;
+font-size:15px;
+}
+
+.details{
+display:flex;
+justify-content:space-between;
+margin:20px 0;
+flex-wrap:wrap;
+}
+
+.details label{
+font-weight:600;
+margin-right:10px;
+}
+
+.details input{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+width:200px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:10px;
+}
+
+th,td{
+border:1px solid #c8e6c9;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#e8f5e9;
+font-weight:bold;
+}
+
+td input{
+width:100%;
+border:1px solid #ccc;
+border-radius:6px;
+padding:6px;
+}
+
+.buttons{
+margin:10px 0;
+}
+
+.buttons button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:8px 15px;
+margin-right:10px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.buttons button:hover{
+background:#1b5e20;
+}
+
+.subtotal{
+text-align:right;
+font-weight:bold;
+margin-top:10px;
+font-size:16px;
+}
+
+.bank-details{
+margin-top:25px;
+}
+
+.bank-details h3{
+color:#2e7d32;
+margin-bottom:10px;
+}
+
+.bank-row{
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:10px;
+}
+
+.bank-row label{
+font-weight:600;
+}
+
+.bank-row input{
+flex:1;
+min-width:180px;
+padding:6px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+#generate-pdf{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.hide-in-pdf{
+display:block;
+}
+
+.action-column{
+}
+
+@media print{
+.hide-in-pdf{
+display:none!important;
+}
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="quotation-box" id="quotation-box">
-    <div class="header">
-       <img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png" alt="Construction Logo" width="100">
-        <div class="header-text">
-            <h1>Pankaj Construction</h1>
-            <p>Hno. 750/A Portawado, Siolim Goa</p>
-            <p>Phone: 7796174991</p>
-        </div>
-    </div>
 
-    <div class="details">
-        <div>
-            <label>Client Name:</label>
-            <input type="text" id="client-name" placeholder="Enter client name">
-        </div>
-        <div>
-            <label>Invoice Date:</label>
-            <input type="date" id="invoice-date">
-        </div>
-    </div>
+<div class="header">
+<img 
+src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png"
+crossorigin="anonymous"
+alt="Construction Logo">
 
-    <table id="quotation-table">
-        <thead>
-            <tr>
-                <th>Particulars</th>
-                <th>Size</th>
-                <th>Rate</th>
-                <th class="labour-header" style="display:none;">Labour Charges</th>
-                <th>Amount</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="text" placeholder="Enter particulars"></td>
-                <td><input type="text" placeholder="Enter size"></td>
-                <td><input type="number" placeholder="Rate"></td>
-                <td class="labour-cell" style="display:none;"><input type="number" placeholder="Labour"></td>
-                <td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
-                <td><button onclick="removeRow(this)" style="background:#e53935; padding:6px 10px; border:none; border-radius:5px; color:white;"><i class='fa fa-times'></i></button></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="buttons hide-in-pdf">
-        <button onclick="addRow()">+ Add Row</button>
-        <button onclick="toggleLabour()">+ Add Labour Charges</button>
-        <button onclick="removeLabour()">− Remove Labour Charges</button>
-    </div>
-
-    <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
-
-    <div class="bank-details">
-    <h3>Receiver Bank Details</h3>
-    <div class="bank-row">
-        <label>Bank No:</label>
-        <input type="text" placeholder="Enter Bank Number">
-        <label>Bank Name:</label>
-        <input type="text" placeholder="Enter Bank Name">
-    </div>
-    <button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
+<div class="header-text">
+<h1>Pankaj Construction</h1>
+<p>Hno. 750/A Portawado, Siolim Goa</p>
+<p>Phone: 7796174991</p>
+</div>
 </div>
 
+<div class="details">
+<div>
+<label>Client Name:</label>
+<input type="text" id="client-name" placeholder="Enter client name">
+</div>
+
+<div>
+<label>Invoice Date:</label>
+<input type="date" id="invoice-date">
+</div>
+</div>
+
+<table id="quotation-table">
+
+<thead>
+<tr>
+<th>Particulars</th>
+<th>Size</th>
+<th>Rate</th>
+<th class="labour-header" style="display:none;">Labour Charges</th>
+<th>Amount</th>
+<th class="action-column">Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><input type="text" placeholder="Enter particulars"></td>
+<td><input type="text" placeholder="Enter size"></td>
+<td><input type="number" placeholder="Rate"></td>
+<td class="labour-cell" style="display:none;"><input type="number" placeholder="Labour"></td>
+<td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
+<td class="action-column">
+<button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
+<i class="fa fa-times"></i>
+</button>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="buttons hide-in-pdf">
+<button onclick="addRow()">+ Add Row</button>
+<button onclick="toggleLabour()">+ Add Labour Charges</button>
+<button onclick="removeLabour()">− Remove Labour Charges</button>
+</div>
+
+<div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
+
+<div class="bank-details">
+<h3>Receiver Bank Details</h3>
+
+<div class="bank-row">
+<label>Bank No:</label>
+<input type="text" placeholder="Enter Bank Number">
+
+<label>Bank Name:</label>
+<input type="text" placeholder="Enter Bank Name">
+</div>
+
+<button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
+
+</div>
 </div>
 
 <script>
-let labourAdded = false;
 
-function addRow() {
-    const table = document.querySelector("#quotation-table tbody");
-    const newRow = table.insertRow();
-    newRow.innerHTML = `
-        <td><input type="text" placeholder="Enter particulars"></td>
-        <td><input type="text" placeholder="Enter size"></td>
-        <td><input type="number" placeholder="Rate"></td>
-        <td class="labour-cell" style="${labourAdded ? '' : 'display:none;'}"><input type="number" placeholder="Labour"></td>
-        <td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
-        <td><button onclick="removeRow(this)" style="background:#e53935; padding:6px 10px; border:none; border-radius:5px; color:white;"><i class='fa fa-times'></i></button></td>
-    `;
+let labourAdded=false;
+
+function addRow(){
+
+const table=document.querySelector("#quotation-table tbody");
+
+const newRow=table.insertRow();
+
+newRow.innerHTML=`
+
+<td><input type="text" placeholder="Enter particulars"></td>
+<td><input type="text" placeholder="Enter size"></td>
+<td><input type="number" placeholder="Rate"></td>
+<td class="labour-cell" style="${labourAdded?'':'display:none;'}"><input type="number" placeholder="Labour"></td>
+<td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
+<td class="action-column">
+<button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
+<i class="fa fa-times"></i>
+</button>
+</td>
+
+`;
+
 }
 
-function removeRow(button) {
-    button.parentElement.parentElement.remove();
-    calculateSubtotal();
+function removeRow(button){
+
+button.parentElement.parentElement.remove();
+calculateSubtotal();
+
 }
 
-function toggleLabour() {
-    labourAdded = true;
-    document.querySelectorAll(".labour-header, .labour-cell").forEach(el => el.style.display = "");
-}
+function toggleLabour(){
 
-function removeLabour() {
-    labourAdded = false;
-    document.querySelectorAll(".labour-header, .labour-cell").forEach(el => el.style.display = "none");
-}
+labourAdded=true;
 
-function calculateSubtotal() {
-    let total = 0;
-    const rows = document.querySelectorAll("#quotation-table tbody tr");
-    rows.forEach(row => {
-        const amountInput = row.querySelector("td:nth-last-child(2) input");
-        const amount = parseFloat(amountInput.value) || 0;
-        total += amount;
-    });
-    document.getElementById("subtotal").textContent = `Subtotal: ₹ ${total.toFixed(2)}`;
-}
-
-document.getElementById("generate-pdf").addEventListener("click", () => {
-    document.querySelectorAll(".hide-in-pdf").forEach(el => el.style.display = "none");
-
-    const clientName = document.getElementById("client-name").value || "Client";
-    const date = document.getElementById("invoice-date").value || new Date().toLocaleDateString();
-
-    const element = document.getElementById("quotation-box");
-    const opt = {
-        margin: 0.5,
-        filename: `Quotation_${clientName}_${date}.pdf`,
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save().then(() => {
-        document.querySelectorAll(".hide-in-pdf").forEach(el => el.style.display = "block");
-    });
+document.querySelectorAll(".labour-header,.labour-cell").forEach(el=>{
+el.style.display="";
 });
+
+}
+
+function removeLabour(){
+
+labourAdded=false;
+
+document.querySelectorAll(".labour-header,.labour-cell").forEach(el=>{
+el.style.display="none";
+});
+
+}
+
+function calculateSubtotal(){
+
+let total=0;
+
+document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
+
+const amountInput=row.querySelector("td:nth-last-child(2) input");
+
+const amount=parseFloat(amountInput.value)||0;
+
+total+=amount;
+
+});
+
+document.getElementById("subtotal").textContent="Subtotal: ₹ "+total.toFixed(2);
+
+}
+
+document.getElementById("generate-pdf").addEventListener("click",()=>{
+
+const actionColumns=document.querySelectorAll(".action-column");
+
+actionColumns.forEach(col=>col.style.display="none");
+
+document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="none");
+
+const clientName=document.getElementById("client-name").value||"Client";
+
+const date=document.getElementById("invoice-date").value||new Date().toLocaleDateString();
+
+const element=document.getElementById("quotation-box");
+
+const opt={
+margin:0.5,
+filename:`Quotation_${clientName}_${date}.pdf`,
+image:{type:'jpeg',quality:1},
+html2canvas:{
+scale:2,
+useCORS:true
+},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+html2pdf().set(opt).from(element).save().then(()=>{
+
+actionColumns.forEach(col=>col.style.display="");
+
+document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
+
+});
+
+});
+
 </script>
+
 </body>
 </html>
-
-
-
-
