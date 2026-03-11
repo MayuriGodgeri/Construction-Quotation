@@ -169,6 +169,13 @@ display:block;
 
 .action-column{
 }
+  
+.textarea{
+width:100%;
+resize:vertical;
+padding:6px;
+font-family:Arial;
+}
 
 @media print{
 .hide-in-pdf{
@@ -224,7 +231,9 @@ alt="Construction Logo">
 <tbody>
 
 <tr>
-<td><input type="text" placeholder="Enter particulars"></td>
+<td>
+<textarea placeholder="Enter particulars" rows="2"></textarea>
+</td>
 <td><input type="text" placeholder="Enter size"></td>
 <td><input type="number" placeholder="Rate"></td>
 <td class="labour-cell" style="display:none;"><input type="number" placeholder="Labour"></td>
@@ -374,3 +383,4 @@ document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
 
 </body>
 </html>
+
