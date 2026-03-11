@@ -79,12 +79,14 @@ table{
 width:100%;
 border-collapse:collapse;
 margin-bottom:10px;
+word-break:break-word;
 }
 
 th,td{
 border:1px solid #c8e6c9;
 padding:10px;
 text-align:left;
+vertical-align:top;
 }
 
 th{
@@ -98,6 +100,20 @@ border:1px solid #ccc;
 border-radius:6px;
 padding:6px;
 }
+
+/* TEXTAREA FIX */
+textarea{
+width:100%;
+min-height:40px;
+resize:vertical;
+padding:6px;
+border:1px solid #ccc;
+border-radius:6px;
+font-family:"Poppins",sans-serif;
+box-sizing:border-box;
+}
+
+/* Buttons */
 
 .buttons{
 margin:10px 0;
@@ -167,16 +183,6 @@ margin-top:10px;
 display:block;
 }
 
-.action-column{
-}
-  
-.textarea{
-width:100%;
-resize:vertical;
-padding:6px;
-font-family:Arial;
-}
-
 @media print{
 .hide-in-pdf{
 display:none!important;
@@ -191,6 +197,7 @@ display:none!important;
 <div class="quotation-box" id="quotation-box">
 
 <div class="header">
+
 <img 
 src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png"
 crossorigin="anonymous"
@@ -201,9 +208,11 @@ alt="Construction Logo">
 <p>Hno. 750/A Portawado, Siolim Goa</p>
 <p>Phone: 7796174991</p>
 </div>
+
 </div>
 
 <div class="details">
+
 <div>
 <label>Client Name:</label>
 <input type="text" id="client-name" placeholder="Enter client name">
@@ -213,6 +222,7 @@ alt="Construction Logo">
 <label>Invoice Date:</label>
 <input type="date" id="invoice-date">
 </div>
+
 </div>
 
 <table id="quotation-table">
@@ -231,18 +241,29 @@ alt="Construction Logo">
 <tbody>
 
 <tr>
+
 <td>
-<textarea placeholder="Enter particulars" rows="2"></textarea>
+<textarea placeholder="Enter particulars"></textarea>
 </td>
+
 <td><input type="text" placeholder="Enter size"></td>
+
 <td><input type="number" placeholder="Rate"></td>
-<td class="labour-cell" style="display:none;"><input type="number" placeholder="Labour"></td>
-<td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
+
+<td class="labour-cell" style="display:none;">
+<input type="number" placeholder="Labour">
+</td>
+
+<td>
+<input type="number" placeholder="Amount" oninput="calculateSubtotal()">
+</td>
+
 <td class="action-column">
 <button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
 <i class="fa fa-times"></i>
 </button>
 </td>
+
 </tr>
 
 </tbody>
@@ -257,19 +278,23 @@ alt="Construction Logo">
 <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
 
 <div class="bank-details">
+
 <h3>Receiver Bank Details</h3>
 
 <div class="bank-row">
+
 <label>Bank No:</label>
 <input type="text" placeholder="Enter Bank Number">
 
 <label>Bank Name:</label>
 <input type="text" placeholder="Enter Bank Name">
+
 </div>
 
 <button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
 
 </div>
+
 </div>
 
 <script>
@@ -284,11 +309,22 @@ const newRow=table.insertRow();
 
 newRow.innerHTML=`
 
-<td><input type="text" placeholder="Enter particulars"></td>
+<td>
+<textarea placeholder="Enter particulars"></textarea>
+</td>
+
 <td><input type="text" placeholder="Enter size"></td>
+
 <td><input type="number" placeholder="Rate"></td>
-<td class="labour-cell" style="${labourAdded?'':'display:none;'}"><input type="number" placeholder="Labour"></td>
-<td><input type="number" placeholder="Amount" oninput="calculateSubtotal()"></td>
+
+<td class="labour-cell" style="${labourAdded?'':'display:none;'}">
+<input type="number" placeholder="Labour">
+</td>
+
+<td>
+<input type="number" placeholder="Amount" oninput="calculateSubtotal()">
+</td>
+
 <td class="action-column">
 <button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
 <i class="fa fa-times"></i>
@@ -302,6 +338,7 @@ newRow.innerHTML=`
 function removeRow(button){
 
 button.parentElement.parentElement.remove();
+
 calculateSubtotal();
 
 }
@@ -362,10 +399,7 @@ const opt={
 margin:0.5,
 filename:`Quotation_${clientName}_${date}.pdf`,
 image:{type:'jpeg',quality:1},
-html2canvas:{
-scale:2,
-useCORS:true
-},
+html2canvas:{scale:2,useCORS:true},
 jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
 };
 
@@ -383,4 +417,3 @@ document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
 
 </body>
 </html>
-
