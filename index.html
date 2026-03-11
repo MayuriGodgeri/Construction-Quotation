@@ -15,15 +15,15 @@
 <style>
 
 body{
-font-family:Arial, sans-serif;
-background:#f4f4f4;
+font-family:Arial;
+background:#f5f5f5;
 }
 
 .quotation-box{
 width:90%;
 max-width:1100px;
-background:#fff;
-margin:20px auto;
+margin:auto;
+background:white;
 padding:20px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
@@ -35,19 +35,15 @@ align-items:center;
 background:linear-gradient(90deg,#2e7d32,#43a047);
 color:white;
 padding:20px;
-border-radius:10px 10px 0 0;
+border-radius:10px;
 }
 
 .header img{
 height:70px;
 margin-right:20px;
 background:white;
-border-radius:10px;
 padding:5px;
-}
-
-.header-text h1{
-margin:0;
+border-radius:10px;
 }
 
 .details{
@@ -59,14 +55,14 @@ flex-wrap:wrap;
 
 .details input{
 padding:8px;
+border-radius:5px;
 border:1px solid #ccc;
-border-radius:6px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-bottom:10px;
+margin-top:10px;
 }
 
 th,td{
@@ -74,20 +70,12 @@ border:1px solid #c8e6c9;
 padding:10px;
 text-align:left;
 vertical-align:top;
+word-break:break-word;
 }
 
 th{
 background:#e8f5e9;
 }
-
-td input{
-width:100%;
-padding:6px;
-border-radius:5px;
-border:1px solid #ccc;
-}
-
-/* PARTICULARS TEXTAREA */
 
 .particulars{
 width:100%;
@@ -97,8 +85,13 @@ border-radius:5px;
 padding:6px;
 resize:none;
 box-sizing:border-box;
-overflow-wrap:anywhere;
-word-break:break-word;
+}
+
+td input{
+width:100%;
+padding:6px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 .buttons button{
@@ -106,13 +99,9 @@ background:#2e7d32;
 color:white;
 border:none;
 padding:8px 15px;
+border-radius:5px;
 margin-right:10px;
-border-radius:6px;
 cursor:pointer;
-}
-
-.buttons button:hover{
-background:#1b5e20;
 }
 
 .subtotal{
@@ -125,16 +114,22 @@ margin-top:10px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
+margin-top:10px;
 }
 
 .bank-row input{
 padding:6px;
 border:1px solid #ccc;
-border-radius:6px;
+border-radius:5px;
 }
 
 .hide-in-pdf{
 display:block;
+}
+
+.pdf-text{
+white-space:pre-wrap;
+word-break:break-word;
 }
 
 </style>
@@ -149,8 +144,8 @@ display:block;
 
 <img src="10001509921.png">
 
-<div class="header-text">
-<h1>Pankaj Construction</h1>
+<div>
+<h2>Pankaj Construction</h2>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
 <p>Phone: 7796174991</p>
 </div>
@@ -161,7 +156,7 @@ display:block;
 
 <div>
 <label>Client Name:</label>
-<input type="text" id="client-name" placeholder="Enter client name">
+<input type="text" id="client-name">
 </div>
 
 <div>
@@ -188,21 +183,23 @@ display:block;
 <tr>
 
 <td>
-<textarea class="particulars" placeholder="Enter particulars" oninput="autoResize(this)"></textarea>
+<textarea class="particulars"></textarea>
 </td>
 
-<td><input type="text" placeholder="Enter size"></td>
-
-<td><input type="number" placeholder="Rate"></td>
+<td>
+<input type="text">
+</td>
 
 <td>
-<input type="number" placeholder="Amount" oninput="calculateSubtotal()">
+<input type="number">
+</td>
+
+<td>
+<input type="number" oninput="calculateSubtotal()">
 </td>
 
 <td class="action-column">
-<button onclick="removeRow(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">
-<i class="fa fa-times"></i>
-</button>
+<button onclick="removeRow(this)">X</button>
 </td>
 
 </tr>
@@ -217,9 +214,9 @@ display:block;
 
 </div>
 
-<div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
-
-<div class="bank-details">
+<div class="subtotal" id="subtotal">
+Subtotal: ₹ 0.00
+</div>
 
 <h3>Receiver Bank Details</h3>
 
@@ -233,54 +230,36 @@ display:block;
 
 </div>
 
-<button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
+<br>
 
-</div>
+<button id="generate-pdf" class="hide-in-pdf">
+Generate PDF
+</button>
 
 </div>
 
 <script>
 
-function autoResize(field){
-
-field.style.height="auto";
-field.style.height=field.scrollHeight+"px";
-
-}
-
 function addRow(){
 
-const table=document.querySelector("#quotation-table tbody");
+let table=document.querySelector("#quotation-table tbody");
 
-const newRow=table.insertRow();
+let row=table.insertRow();
 
-newRow.innerHTML=`
-
-<td>
-<textarea class="particulars" placeholder="Enter particulars" oninput="autoResize(this)"></textarea>
-</td>
-
-<td><input type="text" placeholder="Enter size"></td>
-
-<td><input type="number" placeholder="Rate"></td>
-
-<td>
-<input type="number" placeholder="Amount" oninput="calculateSubtotal()">
-</td>
-
-<td class="action-column">
-<button onclick="removeRow(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">
-<i class="fa fa-times"></i>
-</button>
-</td>
-
+row.innerHTML=`
+<td><textarea class="particulars"></textarea></td>
+<td><input type="text"></td>
+<td><input type="number"></td>
+<td><input type="number" oninput="calculateSubtotal()"></td>
+<td class="action-column"><button onclick="removeRow(this)">X</button></td>
 `;
 
 }
 
-function removeRow(button){
+function removeRow(btn){
 
-button.parentElement.parentElement.remove();
+btn.parentElement.parentElement.remove();
+
 calculateSubtotal();
 
 }
@@ -291,13 +270,9 @@ let total=0;
 
 document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
 
-const amount=row.querySelector("td:nth-child(4) input");
+let val=row.cells[3].querySelector("input").value;
 
-if(amount && amount.value){
-
-total+=parseFloat(amount.value);
-
-}
+if(val) total+=parseFloat(val);
 
 });
 
@@ -307,15 +282,37 @@ document.getElementById("subtotal").innerText="Subtotal: ₹ "+total.toFixed(2);
 
 document.getElementById("generate-pdf").addEventListener("click",()=>{
 
+/* convert textarea to normal text for pdf */
+
+document.querySelectorAll(".particulars").forEach(area=>{
+
+let div=document.createElement("div");
+
+div.className="pdf-text";
+
+div.innerText=area.value;
+
+area.style.display="none";
+
+area.parentNode.appendChild(div);
+
+});
+
 document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="none");
 document.querySelectorAll(".action-column").forEach(el=>el.style.display="none");
 
-const element=document.getElementById("quotation-box");
+let element=document.getElementById("quotation-box");
 
 html2pdf().from(element).save("quotation.pdf").then(()=>{
 
-document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
-document.querySelectorAll(".action-column").forEach(el=>el.style.display="");
+location.reload();
 
 });
+
+});
+
+</script>
+
+</body>
+</html>
 ```
