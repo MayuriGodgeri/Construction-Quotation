@@ -1,6 +1,6 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -15,10 +15,8 @@
 <style>
 
 body{
-font-family:"Poppins",sans-serif;
-background:#fafafa;
-margin:0;
-padding:0;
+font-family:Arial, sans-serif;
+background:#f4f4f4;
 }
 
 .quotation-box{
@@ -27,7 +25,7 @@ max-width:1100px;
 background:#fff;
 margin:20px auto;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
@@ -37,12 +35,11 @@ align-items:center;
 background:linear-gradient(90deg,#2e7d32,#43a047);
 color:white;
 padding:20px;
-border-radius:12px 12px 0 0;
+border-radius:10px 10px 0 0;
 }
 
 .header img{
 height:70px;
-width:70px;
 margin-right:20px;
 background:white;
 border-radius:10px;
@@ -51,13 +48,6 @@ padding:5px;
 
 .header-text h1{
 margin:0;
-font-size:26px;
-font-weight:bold;
-}
-
-.header-text p{
-margin:4px 0;
-font-size:15px;
 }
 
 .details{
@@ -67,23 +57,16 @@ margin:20px 0;
 flex-wrap:wrap;
 }
 
-.details label{
-font-weight:600;
-margin-right:10px;
-}
-
 .details input{
 padding:8px;
-border-radius:6px;
 border:1px solid #ccc;
-width:200px;
+border-radius:6px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
 margin-bottom:10px;
-table-layout:fixed;
 }
 
 th,td{
@@ -91,37 +74,31 @@ border:1px solid #c8e6c9;
 padding:10px;
 text-align:left;
 vertical-align:top;
-word-break:break-word;
-overflow-wrap:anywhere;
 }
 
 th{
 background:#e8f5e9;
-font-weight:bold;
 }
 
 td input{
 width:100%;
-border:1px solid #ccc;
-border-radius:6px;
 padding:6px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
-textarea{
+/* PARTICULARS TEXTAREA */
+
+.particulars{
 width:100%;
 min-height:40px;
-resize:vertical;
-padding:6px;
 border:1px solid #ccc;
-border-radius:6px;
-font-family:"Poppins",sans-serif;
+border-radius:5px;
+padding:6px;
+resize:none;
 box-sizing:border-box;
-word-break:break-word;
 overflow-wrap:anywhere;
-}
-
-.buttons{
-margin:10px 0;
+word-break:break-word;
 }
 
 .buttons button{
@@ -142,58 +119,22 @@ background:#1b5e20;
 text-align:right;
 font-weight:bold;
 margin-top:10px;
-font-size:16px;
-}
-
-.bank-details{
-margin-top:25px;
-}
-
-.bank-details h3{
-color:#2e7d32;
-margin-bottom:10px;
 }
 
 .bank-row{
 display:flex;
-align-items:center;
-gap:15px;
+gap:10px;
 flex-wrap:wrap;
-margin-bottom:10px;
-}
-
-.bank-row label{
-font-weight:600;
 }
 
 .bank-row input{
-flex:1;
-min-width:180px;
 padding:6px;
-border-radius:6px;
 border:1px solid #ccc;
-}
-
-#generate-pdf{
-background:#2e7d32;
-color:white;
-border:none;
-padding:10px 15px;
 border-radius:6px;
-cursor:pointer;
-margin-top:10px;
 }
 
 .hide-in-pdf{
 display:block;
-}
-
-@media print{
-
-.hide-in-pdf{
-display:none!important;
-}
-
 }
 
 </style>
@@ -206,10 +147,7 @@ display:none!important;
 
 <div class="header">
 
-<img 
-src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png"
-crossorigin="anonymous"
-alt="Construction Logo">
+<img src="10001509921.png">
 
 <div class="header-text">
 <h1>Pankaj Construction</h1>
@@ -240,7 +178,6 @@ alt="Construction Logo">
 <th>Particulars</th>
 <th>Size</th>
 <th>Rate</th>
-<th class="labour-header" style="display:none;">Labour Charges</th>
 <th>Amount</th>
 <th class="action-column">Action</th>
 </tr>
@@ -251,23 +188,19 @@ alt="Construction Logo">
 <tr>
 
 <td>
-<textarea placeholder="Enter particulars"></textarea>
+<textarea class="particulars" placeholder="Enter particulars" oninput="autoResize(this)"></textarea>
 </td>
 
 <td><input type="text" placeholder="Enter size"></td>
 
 <td><input type="number" placeholder="Rate"></td>
 
-<td class="labour-cell" style="display:none;">
-<input type="number" placeholder="Labour">
-</td>
-
 <td>
 <input type="number" placeholder="Amount" oninput="calculateSubtotal()">
 </td>
 
 <td class="action-column">
-<button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
+<button onclick="removeRow(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">
 <i class="fa fa-times"></i>
 </button>
 </td>
@@ -275,15 +208,12 @@ alt="Construction Logo">
 </tr>
 
 </tbody>
+
 </table>
 
 <div class="buttons hide-in-pdf">
 
-<button onclick="addRow()">+ Add Row</button>
-
-<button onclick="toggleLabour()">+ Add Labour Charges</button>
-
-<button onclick="removeLabour()">− Remove Labour Charges</button>
+<button onclick="addRow()">Add Row</button>
 
 </div>
 
@@ -296,10 +226,10 @@ alt="Construction Logo">
 <div class="bank-row">
 
 <label>Bank No:</label>
-<input type="text" placeholder="Enter Bank Number">
+<input type="text">
 
 <label>Bank Name:</label>
-<input type="text" placeholder="Enter Bank Name">
+<input type="text">
 
 </div>
 
@@ -311,7 +241,12 @@ alt="Construction Logo">
 
 <script>
 
-let labourAdded=false;
+function autoResize(field){
+
+field.style.height="auto";
+field.style.height=field.scrollHeight+"px";
+
+}
 
 function addRow(){
 
@@ -322,23 +257,19 @@ const newRow=table.insertRow();
 newRow.innerHTML=`
 
 <td>
-<textarea placeholder="Enter particulars"></textarea>
+<textarea class="particulars" placeholder="Enter particulars" oninput="autoResize(this)"></textarea>
 </td>
 
 <td><input type="text" placeholder="Enter size"></td>
 
 <td><input type="number" placeholder="Rate"></td>
 
-<td class="labour-cell" style="${labourAdded?'':'display:none;'}">
-<input type="number" placeholder="Labour">
-</td>
-
 <td>
 <input type="number" placeholder="Amount" oninput="calculateSubtotal()">
 </td>
 
 <td class="action-column">
-<button onclick="removeRow(this)" style="background:#e53935;padding:6px 10px;border:none;border-radius:5px;color:white;">
+<button onclick="removeRow(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">
 <i class="fa fa-times"></i>
 </button>
 </td>
@@ -350,28 +281,7 @@ newRow.innerHTML=`
 function removeRow(button){
 
 button.parentElement.parentElement.remove();
-
 calculateSubtotal();
-
-}
-
-function toggleLabour(){
-
-labourAdded=true;
-
-document.querySelectorAll(".labour-header,.labour-cell").forEach(el=>{
-el.style.display="";
-});
-
-}
-
-function removeLabour(){
-
-labourAdded=false;
-
-document.querySelectorAll(".labour-header,.labour-cell").forEach(el=>{
-el.style.display="none";
-});
 
 }
 
@@ -381,51 +291,31 @@ let total=0;
 
 document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
 
-const amountInput=row.querySelector("td:nth-last-child(2) input");
+const amount=row.querySelector("td:nth-child(4) input");
 
-const amount=parseFloat(amountInput.value)||0;
+if(amount && amount.value){
 
-total+=amount;
+total+=parseFloat(amount.value);
+
+}
 
 });
 
-document.getElementById("subtotal").textContent="Subtotal: ₹ "+total.toFixed(2);
+document.getElementById("subtotal").innerText="Subtotal: ₹ "+total.toFixed(2);
 
 }
 
 document.getElementById("generate-pdf").addEventListener("click",()=>{
 
-const actionColumns=document.querySelectorAll(".action-column");
-
-actionColumns.forEach(col=>col.style.display="none");
-
 document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="none");
-
-const clientName=document.getElementById("client-name").value||"Client";
-
-const date=document.getElementById("invoice-date").value||new Date().toLocaleDateString();
+document.querySelectorAll(".action-column").forEach(el=>el.style.display="none");
 
 const element=document.getElementById("quotation-box");
 
-const opt={
-margin:0.5,
-filename:`Quotation_${clientName}_${date}.pdf`,
-image:{type:'jpeg',quality:1},
-html2canvas:{scale:2,useCORS:true},
-jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
-};
-
-html2pdf().set(opt).from(element).save().then(()=>{
-
-actionColumns.forEach(col=>col.style.display="");
+html2pdf().from(element).save("quotation.pdf").then(()=>{
 
 document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
+document.querySelectorAll(".action-column").forEach(el=>el.style.display="");
 
 });
-
-});
-
-</script>
-
-</body>
-</html>
+```
