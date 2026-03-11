@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Pankaj Construction Quotation</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -79,7 +83,7 @@ table{
 width:100%;
 border-collapse:collapse;
 margin-bottom:10px;
-word-break:break-word;
+table-layout:fixed;
 }
 
 th,td{
@@ -87,6 +91,8 @@ border:1px solid #c8e6c9;
 padding:10px;
 text-align:left;
 vertical-align:top;
+word-break:break-word;
+overflow-wrap:anywhere;
 }
 
 th{
@@ -101,7 +107,6 @@ border-radius:6px;
 padding:6px;
 }
 
-/* TEXTAREA FIX */
 textarea{
 width:100%;
 min-height:40px;
@@ -111,9 +116,9 @@ border:1px solid #ccc;
 border-radius:6px;
 font-family:"Poppins",sans-serif;
 box-sizing:border-box;
+word-break:break-word;
+overflow-wrap:anywhere;
 }
-
-/* Buttons */
 
 .buttons{
 margin:10px 0;
@@ -184,12 +189,15 @@ display:block;
 }
 
 @media print{
+
 .hide-in-pdf{
 display:none!important;
 }
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -270,9 +278,13 @@ alt="Construction Logo">
 </table>
 
 <div class="buttons hide-in-pdf">
+
 <button onclick="addRow()">+ Add Row</button>
+
 <button onclick="toggleLabour()">+ Add Labour Charges</button>
+
 <button onclick="removeLabour()">− Remove Labour Charges</button>
+
 </div>
 
 <div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
