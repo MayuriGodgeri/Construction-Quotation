@@ -11,7 +11,7 @@
 <style>
 
 body{
-font-family:Poppins, sans-serif;
+font-family:Poppins,sans-serif;
 background:#f5f5f5;
 margin:0;
 padding:20px;
@@ -61,8 +61,9 @@ border-collapse:collapse;
 
 th,td{
 border:1px solid #c8e6c9;
-padding:8px;
+padding:10px;
 vertical-align:top;
+word-break:break-word;
 }
 
 th{
@@ -128,6 +129,12 @@ margin-left:10px;
 display:block;
 }
 
+td div{
+white-space:pre-wrap;
+word-break:break-word;
+width:100%;
+}
+
 </style>
 </head>
 
@@ -137,6 +144,7 @@ display:block;
 
 <div class="header">
 <img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png">
+
 <div>
 <h2>Pankaj Construction</h2>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
@@ -187,6 +195,7 @@ display:block;
 
 <div class="bank-details">
 <h3>Receiver Bank Details</h3>
+
 <div class="bank-row">
 <label>Bank No:</label>
 <input type="text">
@@ -204,6 +213,7 @@ display:block;
 
 function addRow(){
 let table=document.querySelector("#quotation-table tbody");
+
 let row=table.insertRow();
 
 row.innerHTML=`
@@ -235,18 +245,25 @@ document.getElementById("generate-pdf").addEventListener("click",()=>{
 
 const element=document.getElementById("quotation-box");
 
-/* clone node to avoid textarea rendering issues */
 let clone=element.cloneNode(true);
 
-/* convert textarea to text */
+/* convert textarea to text block */
 clone.querySelectorAll("textarea").forEach(t=>{
+
 let div=document.createElement("div");
-div.style.whiteSpace="pre-wrap";
+
 div.innerText=t.value;
+
+div.style.whiteSpace="pre-wrap";
+div.style.wordBreak="break-word";
+div.style.width="100%";
+div.style.lineHeight="1.4";
+
 t.parentNode.replaceChild(div,t);
+
 });
 
-/* hide buttons */
+/* remove buttons */
 clone.querySelectorAll(".hide-in-pdf").forEach(el=>el.remove());
 
 const opt={
@@ -264,4 +281,3 @@ html2pdf().set(opt).from(clone).save();
 
 </body>
 </html>
-
