@@ -25,7 +25,6 @@ margin:20px auto;
 padding:20px;
 border-radius:12px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
-page-break-after:auto;
 }
 
 .header{
@@ -46,6 +45,12 @@ border-radius:10px;
 padding:5px;
 }
 
+.header-text h1{
+margin:0;
+font-size:26px;
+font-weight:bold;
+}
+
 .details{
 display:flex;
 justify-content:space-between;
@@ -64,7 +69,6 @@ table{
 width:100%;
 border-collapse:collapse;
 margin-bottom:10px;
-page-break-inside:auto;
 }
 
 th,td{
@@ -75,14 +79,8 @@ vertical-align:top;
 word-break:break-word;
 }
 
-tr{
-page-break-inside:avoid;
-page-break-after:auto;
-}
-
 th{
 background:#e8f5e9;
-font-weight:bold;
 }
 
 textarea{
@@ -181,15 +179,14 @@ display:none!important;
 <div class="header">
 <img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png">
 
-<div>
-<h2>Pankaj Construction</h2>
+<div class="header-text">
+<h1>Pankaj Construction</h1>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
 <p>Phone: 7796174991</p>
 </div>
 </div>
 
 <div class="details">
-
 <div>
 <label>Client Name:</label>
 <input type="text" id="client-name">
@@ -199,7 +196,6 @@ display:none!important;
 <label>Invoice Date:</label>
 <input type="date" id="invoice-date">
 </div>
-
 </div>
 
 <table id="quotation-table">
@@ -251,18 +247,16 @@ display:none!important;
 <button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
 
 </div>
+
 </div>
 
 <script>
 
 function addRow(){
-
 const table=document.querySelector("#quotation-table tbody");
-
 const newRow=table.insertRow();
 
 newRow.innerHTML=`
-
 <td><textarea placeholder="Enter particulars"></textarea></td>
 <td><input type="text"></td>
 <td><input type="number"></td>
@@ -272,46 +266,34 @@ newRow.innerHTML=`
 <i class="fa fa-times"></i>
 </button>
 </td>
-
 `;
-
 }
 
 function removeRow(button){
-
 button.parentElement.parentElement.remove();
 calculateSubtotal();
-
 }
 
 function calculateSubtotal(){
-
 let total=0;
 
 document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
-
 const amountInput=row.cells[3].querySelector("input");
-
 const amount=parseFloat(amountInput.value)||0;
-
 total+=amount;
-
 });
 
 document.getElementById("subtotal").textContent="Subtotal: ₹ "+total.toFixed(2);
-
 }
 
 document.getElementById("generate-pdf").addEventListener("click",()=>{
 
 const actionColumns=document.querySelectorAll(".action-column");
-
 actionColumns.forEach(col=>col.style.display="none");
 
 document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="none");
 
 const clientName=document.getElementById("client-name").value||"Client";
-
 const element=document.getElementById("quotation-box");
 
 const opt={
@@ -329,16 +311,13 @@ format:'a4',
 orientation:'portrait'
 },
 pagebreak:{
-mode:['avoid-all','css','legacy']
+mode:['css','legacy']
 }
 };
 
 html2pdf().set(opt).from(element).save().then(()=>{
-
 actionColumns.forEach(col=>col.style.display="");
-
 document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
-
 });
 
 });
