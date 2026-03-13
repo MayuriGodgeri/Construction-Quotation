@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,19 +12,18 @@
 <style>
 
 body{
-font-family:"Poppins",sans-serif;
-background:#fafafa;
+font-family:Poppins, sans-serif;
+background:#f5f5f5;
 margin:0;
-padding:0;
+padding:20px;
 }
 
 .quotation-box{
-width:90%;
-max-width:1100px;
+max-width:1000px;
+margin:auto;
 background:#fff;
-margin:20px auto;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
@@ -33,50 +33,37 @@ align-items:center;
 background:linear-gradient(90deg,#2e7d32,#43a047);
 color:white;
 padding:20px;
-border-radius:12px 12px 0 0;
+border-radius:10px;
 }
 
 .header img{
-height:70px;
-width:70px;
-margin-right:20px;
+height:60px;
+margin-right:15px;
 background:white;
-border-radius:10px;
+border-radius:8px;
 padding:5px;
 }
 
-.header-text h1{
-margin:0;
-font-size:26px;
-font-weight:bold;
-}
-
 .details{
-display:flex;
-justify-content:space-between;
 margin:20px 0;
-flex-wrap:wrap;
 }
 
 .details input{
-padding:8px;
+padding:6px;
 border-radius:6px;
 border:1px solid #ccc;
-width:200px;
+margin-left:10px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-bottom:10px;
 }
 
 th,td{
 border:1px solid #c8e6c9;
-padding:10px;
-text-align:left;
+padding:8px;
 vertical-align:top;
-word-break:break-word;
 }
 
 th{
@@ -86,87 +73,60 @@ background:#e8f5e9;
 textarea{
 width:100%;
 min-height:60px;
-resize:vertical;
+border-radius:6px;
+border:1px solid #ccc;
 padding:6px;
-box-sizing:border-box;
+resize:vertical;
 }
 
 td input{
 width:100%;
-border:1px solid #ccc;
-border-radius:6px;
 padding:6px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 .buttons{
-margin:10px 0;
+margin-top:10px;
 }
 
 .buttons button{
 background:#2e7d32;
 color:white;
 border:none;
-padding:8px 15px;
-margin-right:10px;
+padding:8px 14px;
 border-radius:6px;
 cursor:pointer;
+margin-right:5px;
 }
 
 .subtotal{
 text-align:right;
 font-weight:bold;
 margin-top:10px;
-font-size:16px;
-page-break-inside:avoid;
 }
 
 .bank-details{
 margin-top:25px;
-page-break-inside:avoid;
 }
 
 .bank-details h3{
 color:#2e7d32;
-margin-bottom:10px;
 }
 
 .bank-row{
-display:flex;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
-margin-bottom:10px;
+margin-top:8px;
 }
 
 .bank-row input{
-flex:1;
-min-width:180px;
 padding:6px;
 border-radius:6px;
 border:1px solid #ccc;
-}
-
-#generate-pdf{
-background:#2e7d32;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:6px;
-cursor:pointer;
-margin-top:10px;
+margin-left:10px;
 }
 
 .hide-in-pdf{
 display:block;
-}
-
-.action-column{
-}
-
-@media print{
-.hide-in-pdf{
-display:none!important;
-}
 }
 
 </style>
@@ -178,24 +138,19 @@ display:none!important;
 
 <div class="header">
 <img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png">
-
-<div class="header-text">
-<h1>Pankaj Construction</h1>
+<div>
+<h2>Pankaj Construction</h2>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
 <p>Phone: 7796174991</p>
 </div>
 </div>
 
 <div class="details">
-<div>
 <label>Client Name:</label>
 <input type="text" id="client-name">
-</div>
 
-<div>
-<label>Invoice Date:</label>
+<label style="margin-left:20px;">Invoice Date:</label>
 <input type="date" id="invoice-date">
-</div>
 </div>
 
 <table id="quotation-table">
@@ -206,21 +161,19 @@ display:none!important;
 <th>Size</th>
 <th>Rate</th>
 <th>Amount</th>
-<th class="action-column">Action</th>
+<th class="hide-in-pdf">Action</th>
 </tr>
 </thead>
 
 <tbody>
 
 <tr>
-<td><textarea placeholder="Enter particulars"></textarea></td>
+<td><textarea></textarea></td>
 <td><input type="text"></td>
 <td><input type="number"></td>
 <td><input type="number" oninput="calculateSubtotal()"></td>
-<td class="action-column">
-<button onclick="removeRow(this)" style="background:#e53935;color:white;border:none;padding:6px 10px;border-radius:5px;">
-<i class="fa fa-times"></i>
-</button>
+<td class="hide-in-pdf">
+<button onclick="removeRow(this)">X</button>
 </td>
 </tr>
 
@@ -235,42 +188,36 @@ display:none!important;
 
 <div class="bank-details">
 <h3>Receiver Bank Details</h3>
-
 <div class="bank-row">
 <label>Bank No:</label>
 <input type="text">
 
-<label>Bank Name:</label>
+<label style="margin-left:20px;">Bank Name:</label>
 <input type="text">
+</div>
 </div>
 
 <button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
 
 </div>
 
-</div>
-
 <script>
 
 function addRow(){
-const table=document.querySelector("#quotation-table tbody");
-const newRow=table.insertRow();
+let table=document.querySelector("#quotation-table tbody");
+let row=table.insertRow();
 
-newRow.innerHTML=`
-<td><textarea placeholder="Enter particulars"></textarea></td>
+row.innerHTML=`
+<td><textarea></textarea></td>
 <td><input type="text"></td>
 <td><input type="number"></td>
 <td><input type="number" oninput="calculateSubtotal()"></td>
-<td class="action-column">
-<button onclick="removeRow(this)" style="background:#e53935;color:white;border:none;padding:6px 10px;border-radius:5px;">
-<i class="fa fa-times"></i>
-</button>
-</td>
+<td class="hide-in-pdf"><button onclick="removeRow(this)">X</button></td>
 `;
 }
 
-function removeRow(button){
-button.parentElement.parentElement.remove();
+function removeRow(btn){
+btn.parentElement.parentElement.remove();
 calculateSubtotal();
 }
 
@@ -278,47 +225,39 @@ function calculateSubtotal(){
 let total=0;
 
 document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
-const amountInput=row.cells[3].querySelector("input");
-const amount=parseFloat(amountInput.value)||0;
-total+=amount;
+let val=row.cells[3].querySelector("input").value;
+if(val) total+=parseFloat(val);
 });
 
-document.getElementById("subtotal").textContent="Subtotal: ₹ "+total.toFixed(2);
+document.getElementById("subtotal").innerText="Subtotal: ₹ "+total.toFixed(2);
 }
 
 document.getElementById("generate-pdf").addEventListener("click",()=>{
 
-const actionColumns=document.querySelectorAll(".action-column");
-actionColumns.forEach(col=>col.style.display="none");
-
-document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="none");
-
-const clientName=document.getElementById("client-name").value||"Client";
 const element=document.getElementById("quotation-box");
+
+/* clone node to avoid textarea rendering issues */
+let clone=element.cloneNode(true);
+
+/* convert textarea to text */
+clone.querySelectorAll("textarea").forEach(t=>{
+let div=document.createElement("div");
+div.style.whiteSpace="pre-wrap";
+div.innerText=t.value;
+t.parentNode.replaceChild(div,t);
+});
+
+/* hide buttons */
+clone.querySelectorAll(".hide-in-pdf").forEach(el=>el.remove());
 
 const opt={
 margin:0.5,
-filename:`Quotation_${clientName}.pdf`,
-image:{type:'jpeg',quality:1},
-html2canvas:{
-scale:2,
-useCORS:true,
-scrollY:0
-},
-jsPDF:{
-unit:'in',
-format:'a4',
-orientation:'portrait'
-},
-pagebreak:{
-mode:['css','legacy']
-}
+filename:"Quotation.pdf",
+html2canvas:{scale:2},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
 };
 
-html2pdf().set(opt).from(element).save().then(()=>{
-actionColumns.forEach(col=>col.style.display="");
-document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
-});
+html2pdf().set(opt).from(clone).save();
 
 });
 
@@ -326,3 +265,4 @@ document.querySelectorAll(".hide-in-pdf").forEach(el=>el.style.display="block");
 
 </body>
 </html>
+```
