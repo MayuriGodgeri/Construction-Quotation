@@ -1,60 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pankaj Construction Quotation</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 
 body{
-font-family:Poppins,sans-serif;
-background:#f5f5f5;
-margin:0;
-padding:20px;
-}
-
-.quotation-box{
-max-width:1000px;
-margin:auto;
-background:#fff;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+font-family:Arial;
+margin:20px;
 }
 
 .header{
-display:flex;
-align-items:center;
-background:linear-gradient(90deg,#2e7d32,#43a047);
-color:white;
-padding:20px;
-border-radius:10px;
+margin-bottom:20px;
 }
 
-.header img{
-height:60px;
-margin-right:15px;
-background:white;
-border-radius:8px;
-padding:5px;
+h1{
+margin:0;
 }
 
 .details{
+display:flex;
+justify-content:space-between;
 margin:20px 0;
-}
-
-.details input{
-padding:6px;
-border-radius:6px;
-border:1px solid #ccc;
-margin-left:10px;
 }
 
 table{
@@ -63,68 +33,20 @@ border-collapse:collapse;
 }
 
 th,td{
-border:1px solid #c8e6c9;
-padding:10px;
+border-bottom:1px solid #000;
+padding:8px;
+text-align:left;
 vertical-align:top;
 }
 
-th{
-background:#e8f5e9;
-}
-
-textarea{
-width:100%;
-min-height:60px;
-border-radius:6px;
-border:1px solid #ccc;
-padding:6px;
-resize:vertical;
-}
-
-td input{
-width:100%;
-padding:6px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-.buttons{
-margin-top:10px;
-}
-
-.buttons button{
-background:#2e7d32;
-color:white;
-border:none;
-padding:8px 14px;
-border-radius:6px;
-cursor:pointer;
-margin-right:5px;
-}
-
 .subtotal{
+margin-top:20px;
 text-align:right;
 font-weight:bold;
-margin-top:10px;
 }
 
-.bank-details{
-margin-top:25px;
-}
-
-.bank-details h3{
-color:#2e7d32;
-}
-
-.bank-row{
-margin-top:8px;
-}
-
-.bank-row input{
-padding:6px;
-border-radius:6px;
-border:1px solid #ccc;
-margin-left:10px;
+.bank{
+margin-top:40px;
 }
 
 </style>
@@ -132,188 +54,120 @@ margin-left:10px;
 
 <body>
 
-<div class="quotation-box">
+<div id="quotation">
 
 <div class="header">
-<img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png">
-<div>
-<h2>Pankaj Construction</h2>
+<h1>Pankaj Construction</h1>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
 <p>Phone: 7796174991</p>
 </div>
-</div>
 
 <div class="details">
-<label>Client Name:</label>
-<input type="text" id="client-name">
-
-<label style="margin-left:20px;">Invoice Date:</label>
-<input type="date" id="invoice-date">
+<div>Client: <span id="pdf-client"></span></div>
+<div>Date: <span id="pdf-date"></span></div>
 </div>
 
-<table id="quotation-table">
+<table>
 <thead>
 <tr>
 <th>Particulars</th>
 <th>Size</th>
 <th>Rate</th>
 <th>Amount</th>
-<th>Action</th>
 </tr>
 </thead>
 
-<tbody>
-<tr>
-<td><textarea></textarea></td>
-<td><input type="text"></td>
-<td><input type="number"></td>
-<td><input type="number" oninput="calculateSubtotal()"></td>
-<td><button onclick="removeRow(this)">X</button></td>
-</tr>
-</tbody>
+<tbody id="pdf-body"></tbody>
+
 </table>
 
-<div class="buttons">
-<button onclick="addRow()">+ Add Row</button>
-</div>
+<div class="subtotal" id="pdf-total"></div>
 
-<div class="subtotal" id="subtotal">Subtotal: ₹ 0.00</div>
-
-<div class="bank-details">
+<div class="bank">
 <h3>Receiver Bank Details</h3>
-
-<div class="bank-row">
-<label>Bank No:</label>
-<input type="text" id="bank-no">
-
-<label style="margin-left:20px;">Bank Name:</label>
-<input type="text" id="bank-name">
+<p>Bank No: <span id="pdf-bankno"></span></p>
+<p>Bank Name: <span id="pdf-bankname"></span></p>
 </div>
+
 </div>
+
+<hr>
+
+<!-- FORM -->
+<h3>Enter Data</h3>
+
+Client: <input id="client"><br><br>
+Date: <input type="date" id="date"><br><br>
+
+<textarea id="particular" placeholder="Particulars"></textarea><br>
+<input id="size" placeholder="Size">
+<input id="rate" placeholder="Rate">
+<input id="amount" placeholder="Amount"><br><br>
+
+<button onclick="addRow()">Add Row</button>
+
+<br><br>
+
+Bank No: <input id="bankno"><br><br>
+Bank Name: <input id="bankname"><br><br>
 
 <button onclick="generatePDF()">Generate PDF</button>
 
-</div>
-
 <script>
 
+let data=[];
+
 function addRow(){
-let table=document.querySelector("#quotation-table tbody");
 
-let row=table.insertRow();
+const particular=document.getElementById("particular").value;
+const size=document.getElementById("size").value;
+const rate=document.getElementById("rate").value;
+const amount=document.getElementById("amount").value;
 
-row.innerHTML=`
-<td><textarea></textarea></td>
-<td><input type="text"></td>
-<td><input type="number"></td>
-<td><input type="number" oninput="calculateSubtotal()"></td>
-<td><button onclick="removeRow(this)">X</button></td>
-`;
-}
+data.push({particular,size,rate,amount});
 
-function removeRow(btn){
-btn.parentElement.parentElement.remove();
-calculateSubtotal();
-}
+alert("Row Added");
 
-function calculateSubtotal(){
-let total=0;
-
-document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
-let val=row.cells[3].querySelector("input").value;
-if(val) total+=parseFloat(val);
-});
-
-document.getElementById("subtotal").innerText="Subtotal: ₹ "+total.toFixed(2);
 }
 
 function generatePDF(){
 
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
+// SET HEADER
+document.getElementById("pdf-client").textContent=document.getElementById("client").value;
+document.getElementById("pdf-date").textContent=document.getElementById("date").value;
 
-let y = 10;
+// TABLE BUILD
+let tbody=document.getElementById("pdf-body");
+tbody.innerHTML="";
 
-/* HEADER */
-doc.setFontSize(16);
-doc.text("Pankaj Construction", 10, y);
-y += 8;
-
-doc.setFontSize(10);
-doc.text("Hno. 750/A Portawado, Siolim Goa", 10, y);
-y += 5;
-doc.text("Phone: 7796174991", 10, y);
-y += 10;
-
-/* CLIENT */
-let client=document.getElementById("client-name").value || "";
-let date=document.getElementById("invoice-date").value || "";
-
-doc.text(`Client: ${client}`, 10, y);
-doc.text(`Date: ${date}`, 140, y);
-y += 10;
-
-/* TABLE HEADER */
-doc.setFontSize(11);
-doc.text("Particulars", 10, y);
-doc.text("Size", 90, y);
-doc.text("Rate", 120, y);
-doc.text("Amount", 160, y);
-y += 6;
-
-doc.line(10, y, 200, y);
-y += 4;
-
-/* DATA */
 let total=0;
 
-document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
+data.forEach(row=>{
 
-let p=row.cells[0].querySelector("textarea").value || "";
-let s=row.cells[1].querySelector("input").value || "";
-let r=row.cells[2].querySelector("input").value || "";
-let a=row.cells[3].querySelector("input").value || "";
+let tr=document.createElement("tr");
 
-total += parseFloat(a) || 0;
+tr.innerHTML=`
+<td>${row.particular || ""}</td>
+<td>${row.size || ""}</td>
+<td>${row.rate || ""}</td>
+<td>${row.amount || ""}</td>
+`;
 
-let split = doc.splitTextToSize(p, 70);
+tbody.appendChild(tr);
 
-doc.text(split, 10, y);
-doc.text(s, 90, y);
-doc.text(r, 120, y);
-doc.text(a, 160, y);
-
-y += (split.length * 5) + 2;
-
-if(y > 270){
-doc.addPage();
-y = 10;
-}
+total+=parseFloat(row.amount)||0;
 
 });
 
-/* TOTAL */
-y += 5;
-doc.line(10, y, 200, y);
-y += 8;
+// TOTAL FIX (IMPORTANT)
+document.getElementById("pdf-total").textContent="Total: ₹ "+total.toFixed(2);
 
-doc.text(`Subtotal: ₹ ${total.toFixed(2)}`, 140, y);
+// BANK
+document.getElementById("pdf-bankno").textContent=document.getElementById("bankno").value;
+document.getElementById("pdf-bankname").textContent=document.getElementById("bankname").value;
 
-/* BANK */
-y += 15;
-
-doc.text("Receiver Bank Details", 10, y);
-y += 6;
-
-let bankNo=document.getElementById("bank-no").value || "";
-let bankName=document.getElementById("bank-name").value || "";
-
-doc.text(`Bank No: ${bankNo}`, 10, y);
-y += 6;
-doc.text(`Bank Name: ${bankName}`, 10, y);
-
-/* SAVE */
-doc.save("Quotation.pdf");
+// GENERATE PDF
+html2pdf().from(document.getElementById("quotation")).save();
 
 }
 
@@ -321,4 +175,3 @@ doc.save("Quotation.pdf");
 
 </body>
 </html>
-
