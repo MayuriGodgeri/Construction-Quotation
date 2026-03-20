@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,9 @@
 <title>Pankaj Construction Quotation</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
@@ -63,7 +66,6 @@ th,td{
 border:1px solid #c8e6c9;
 padding:10px;
 vertical-align:top;
-word-break:break-word;
 }
 
 th{
@@ -125,26 +127,15 @@ border:1px solid #ccc;
 margin-left:10px;
 }
 
-.hide-in-pdf{
-display:block;
-}
-
-td div{
-white-space:pre-wrap;
-word-break:break-word;
-width:100%;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="quotation-box" id="quotation-box">
+<div class="quotation-box">
 
 <div class="header">
 <img src="https://raw.githubusercontent.com/MayuriGodgeri/Construction-Quotation/main/10001509921.png">
-
 <div>
 <h2>Pankaj Construction</h2>
 <p>Hno. 750/A Portawado, Siolim Goa</p>
@@ -161,33 +152,28 @@ width:100%;
 </div>
 
 <table id="quotation-table">
-
 <thead>
 <tr>
 <th>Particulars</th>
 <th>Size</th>
 <th>Rate</th>
 <th>Amount</th>
-<th class="hide-in-pdf">Action</th>
+<th>Action</th>
 </tr>
 </thead>
 
 <tbody>
-
 <tr>
 <td><textarea></textarea></td>
 <td><input type="text"></td>
 <td><input type="number"></td>
 <td><input type="number" oninput="calculateSubtotal()"></td>
-<td class="hide-in-pdf">
-<button onclick="removeRow(this)">X</button>
-</td>
+<td><button onclick="removeRow(this)">X</button></td>
 </tr>
-
 </tbody>
 </table>
 
-<div class="buttons hide-in-pdf">
+<div class="buttons">
 <button onclick="addRow()">+ Add Row</button>
 </div>
 
@@ -198,14 +184,14 @@ width:100%;
 
 <div class="bank-row">
 <label>Bank No:</label>
-<input type="text">
+<input type="text" id="bank-no">
 
 <label style="margin-left:20px;">Bank Name:</label>
-<input type="text">
+<input type="text" id="bank-name">
 </div>
 </div>
 
-<button id="generate-pdf" class="hide-in-pdf">Generate PDF</button>
+<button onclick="generatePDF()">Generate PDF</button>
 
 </div>
 
@@ -221,7 +207,7 @@ row.innerHTML=`
 <td><input type="text"></td>
 <td><input type="number"></td>
 <td><input type="number" oninput="calculateSubtotal()"></td>
-<td class="hide-in-pdf"><button onclick="removeRow(this)">X</button></td>
+<td><button onclick="removeRow(this)">X</button></td>
 `;
 }
 
@@ -241,43 +227,98 @@ if(val) total+=parseFloat(val);
 document.getElementById("subtotal").innerText="Subtotal: ₹ "+total.toFixed(2);
 }
 
-document.getElementById("generate-pdf").addEventListener("click",()=>{
+function generatePDF(){
 
-const element=document.getElementById("quotation-box");
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
 
-let clone=element.cloneNode(true);
+let y = 10;
 
-/* convert textarea to text block */
-clone.querySelectorAll("textarea").forEach(t=>{
+/* HEADER */
+doc.setFontSize(16);
+doc.text("Pankaj Construction", 10, y);
+y += 8;
 
-let div=document.createElement("div");
+doc.setFontSize(10);
+doc.text("Hno. 750/A Portawado, Siolim Goa", 10, y);
+y += 5;
+doc.text("Phone: 7796174991", 10, y);
+y += 10;
 
-div.innerText=t.value;
+/* CLIENT */
+let client=document.getElementById("client-name").value || "";
+let date=document.getElementById("invoice-date").value || "";
 
-div.style.whiteSpace="pre-wrap";
-div.style.wordBreak="break-word";
-div.style.width="100%";
-div.style.lineHeight="1.4";
+doc.text(`Client: ${client}`, 10, y);
+doc.text(`Date: ${date}`, 140, y);
+y += 10;
 
-t.parentNode.replaceChild(div,t);
+/* TABLE HEADER */
+doc.setFontSize(11);
+doc.text("Particulars", 10, y);
+doc.text("Size", 90, y);
+doc.text("Rate", 120, y);
+doc.text("Amount", 160, y);
+y += 6;
+
+doc.line(10, y, 200, y);
+y += 4;
+
+/* DATA */
+let total=0;
+
+document.querySelectorAll("#quotation-table tbody tr").forEach(row=>{
+
+let p=row.cells[0].querySelector("textarea").value || "";
+let s=row.cells[1].querySelector("input").value || "";
+let r=row.cells[2].querySelector("input").value || "";
+let a=row.cells[3].querySelector("input").value || "";
+
+total += parseFloat(a) || 0;
+
+let split = doc.splitTextToSize(p, 70);
+
+doc.text(split, 10, y);
+doc.text(s, 90, y);
+doc.text(r, 120, y);
+doc.text(a, 160, y);
+
+y += (split.length * 5) + 2;
+
+if(y > 270){
+doc.addPage();
+y = 10;
+}
 
 });
 
-/* remove buttons */
-clone.querySelectorAll(".hide-in-pdf").forEach(el=>el.remove());
+/* TOTAL */
+y += 5;
+doc.line(10, y, 200, y);
+y += 8;
 
-const opt={
-margin:0.5,
-filename:"Quotation.pdf",
-html2canvas:{scale:2},
-jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
-};
+doc.text(`Subtotal: ₹ ${total.toFixed(2)}`, 140, y);
 
-html2pdf().set(opt).from(clone).save();
+/* BANK */
+y += 15;
 
-});
+doc.text("Receiver Bank Details", 10, y);
+y += 6;
+
+let bankNo=document.getElementById("bank-no").value || "";
+let bankName=document.getElementById("bank-name").value || "";
+
+doc.text(`Bank No: ${bankNo}`, 10, y);
+y += 6;
+doc.text(`Bank Name: ${bankName}`, 10, y);
+
+/* SAVE */
+doc.save("Quotation.pdf");
+
+}
 
 </script>
 
 </body>
 </html>
+```
