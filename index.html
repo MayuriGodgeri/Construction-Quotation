@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Construction Billing</title>
+<title>Pankaj Construction Billing</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -17,9 +17,15 @@
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    h2 {
+    h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .contact {
         text-align: center;
         margin-bottom: 20px;
+        font-size: 14px;
     }
 
     table {
@@ -76,25 +82,24 @@
 <body>
 
 <div class="container">
-    <h2>Construction Work Billing</h2>
+    <h1>Pankaj Construction</h1>
+    <div class="contact">Contact: 7796174991</div>
 
     <table id="billingTable">
         <thead>
             <tr>
                 <th>Sr No</th>
                 <th>Particular</th>
-                <th>Quantity</th>
+                <th>Size</th>
                 <th>Rate</th>
                 <th>Amount</th>
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
     </table>
 
     <button class="btn" onclick="addRow()">+ Add Row</button>
-    <button class="btn" onclick="calculateTotal()">Calculate Total</button>
     <button class="btn" onclick="window.print()">Print / Save PDF</button>
 
     <div class="total">
@@ -112,9 +117,9 @@ function addRow() {
     row.innerHTML = `
         <td>${rowCount + 1}</td>
         <td><input type="text" placeholder="Enter work"></td>
-        <td><input type="number" value="1" onchange="calculateRow(this)"></td>
-        <td><input type="number" value="0" onchange="calculateRow(this)"></td>
-        <td class="amount">0</td>
+        <td><input type="text" placeholder="Enter size"></td>
+        <td><input type="number" placeholder="Rate"></td>
+        <td><input type="number" value="0" oninput="calculateTotal()"></td>
         <td><button class="btn btn-danger" onclick="deleteRow(this)">X</button></td>
     `;
 }
@@ -133,46 +138,17 @@ function updateSerial() {
     }
 }
 
-function calculateRow(input) {
-    let row = input.parentNode.parentNode;
-    let qty = row.cells[2].children[0].value;
-    let rate = row.cells[3].children[0].value;
-
-    let amount = qty * rate;
-    row.cells[4].innerHTML = amount.toFixed(2);
-
-    calculateTotal();
-}
-
 function calculateTotal() {
     let total = 0;
     let rows = table.rows;
 
     for (let i = 0; i < rows.length; i++) {
-        total += parseFloat(rows[i].cells[4].innerHTML) || 0;
+        let amount = rows[i].cells[4].children[0].value;
+        total += parseFloat(amount) || 0;
     }
 
     document.getElementById("total").innerHTML = total.toLocaleString("en-IN");
 }
-
-// Add default rows based on your sample
-window.onload = function() {
-    const sampleItems = [
-        "154 Running meter",
-        "Digging foundations",
-        "Rubber soling",
-        "PCC",
-        "Foundations Construction",
-        "Top 5 layer kudchi construction",
-        "Every 3.5 meter pillar"
-    ];
-
-    sampleItems.forEach(item => {
-        addRow();
-        let lastRow = table.rows[table.rows.length - 1];
-        lastRow.cells[1].children[0].value = item;
-    });
-};
 </script>
 
 </body>
