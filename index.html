@@ -3,82 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <title>Pankaj Construction Billing</title>
+
 <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f5f5f5;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.contact {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background: #eee;
+}
+
+input {
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background: red;
+}
+
+.total {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* PRINT STYLES */
+@media print {
+
     body {
-        font-family: Arial, sans-serif;
-        margin: 40px;
-        background: #f5f5f5;
-    }
-
-    .container {
         background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 5px;
-    }
-
-    .contact {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 14px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    table th, table td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: center;
-    }
-
-    table th {
-        background: #eee;
-    }
-
-    input {
-        width: 100%;
-        border: none;
-        text-align: center;
     }
 
     .btn {
-        padding: 10px 15px;
-        margin: 10px 5px;
+        display: none;
+    }
+
+    /* Hide action column */
+    .action-col,
+    th:last-child {
+        display: none;
+    }
+
+    /* Remove placeholder visibility */
+    .no-print-placeholder::placeholder {
+        color: transparent;
+    }
+
+    /* Clean inputs in print */
+    input {
         border: none;
-        background: #007bff;
-        color: #fff;
-        cursor: pointer;
-        border-radius: 5px;
+        outline: none;
+        background: transparent;
     }
-
-    .btn-danger {
-        background: red;
-    }
-
-    .total {
-        text-align: right;
-        font-size: 18px;
-        margin-top: 20px;
-    }
-
-    @media print {
-        .btn {
-            display: none;
-        }
-        body {
-            background: #fff;
-        }
-    }
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -93,7 +115,7 @@
                 <th>Size</th>
                 <th>Rate</th>
                 <th>Amount</th>
-                <th>Action</th>
+                <th class="action-col">Action</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -117,10 +139,12 @@ function addRow() {
     row.innerHTML = `
         <td>${rowCount + 1}</td>
         <td><input type="text" placeholder="Enter work"></td>
-        <td><input type="text" placeholder="Enter size"></td>
-        <td><input type="number" placeholder="Rate"></td>
+        <td><input type="text" placeholder="Enter size" class="no-print-placeholder"></td>
+        <td><input type="number" placeholder="Rate" class="no-print-placeholder"></td>
         <td><input type="number" value="0" oninput="calculateTotal()"></td>
-        <td><button class="btn btn-danger" onclick="deleteRow(this)">X</button></td>
+        <td class="action-col">
+            <button class="btn btn-danger" onclick="deleteRow(this)">X</button>
+        </td>
     `;
 }
 
