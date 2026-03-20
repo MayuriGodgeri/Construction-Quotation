@@ -36,6 +36,7 @@ table {
 table th, table td {
     border: 1px solid #ccc;
     padding: 10px;
+    vertical-align: top;
     text-align: center;
 }
 
@@ -43,12 +44,30 @@ table th {
     background: #eee;
 }
 
-input {
-    width: 100%;
-    border: none;
-    text-align: center;
+/* Particular column formatting */
+td:nth-child(2),
+th:nth-child(2) {
+    width: 35%;
+    text-align: left;
+    word-break: break-word;
+    white-space: normal;
 }
 
+/* Inputs */
+input, textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    resize: none;
+    text-align: left;
+}
+
+/* Buttons */
 .btn {
     padding: 10px 15px;
     margin: 10px 5px;
@@ -86,16 +105,21 @@ input {
         display: none;
     }
 
-    /* Remove placeholder visibility */
+    /* Remove placeholders */
     .no-print-placeholder::placeholder {
         color: transparent;
     }
 
-    /* Clean inputs in print */
-    input {
+    /* Clean look */
+    input, textarea {
         border: none;
-        outline: none;
         background: transparent;
+    }
+
+    /* Ensure wrapping in print */
+    td, th {
+        white-space: normal !important;
+        word-break: break-word !important;
     }
 }
 </style>
@@ -138,7 +162,7 @@ function addRow() {
 
     row.innerHTML = `
         <td>${rowCount + 1}</td>
-        <td><input type="text" placeholder="Enter work"></td>
+        <td><textarea placeholder="Enter work" rows="2"></textarea></td>
         <td><input type="text" placeholder="Enter size" class="no-print-placeholder"></td>
         <td><input type="number" placeholder="Rate" class="no-print-placeholder"></td>
         <td><input type="number" value="0" oninput="calculateTotal()"></td>
