@@ -7,107 +7,121 @@
 <style>
 
 body{
-    font-family: Arial, sans-serif;
-    margin:40px;
-    background:#f5f5f5;
+font-family:Arial;
+margin:40px;
+background:#f5f5f5;
 }
 
 .container{
-    background:#fff;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+background:#fff;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 /* HEADER */
 
 .header{
-    background:#2e8b57;
-    color:white;
-    text-align:center;
-    padding:15px;
-    border-radius:6px;
-    margin-bottom:20px;
+background:#2e8b57;
+color:#fff;
+text-align:center;
+padding:18px;
+margin-bottom:20px;
 }
 
 .header h1{
-    margin:0;
+margin:0;
 }
 
 .address{
-    font-size:14px;
-    margin-top:5px;
+font-size:14px;
+margin-top:5px;
 }
 
 .contact{
-    font-size:14px;
+font-size:14px;
 }
 
 /* TABLE */
 
 table{
-    width:100%;
-    border-collapse:collapse;
+width:100%;
+border-collapse:collapse;
+table-layout:auto;
 }
 
-table th, table td{
-    border:1px solid #ccc;
-    padding:10px;
-    text-align:center;
-    vertical-align:top;
+table th,table td{
+border:1px solid #ccc;
+padding:10px;
+vertical-align:top;
 }
 
 table th{
-    background:#eee;
+background:#eee;
 }
 
 /* PARTICULAR COLUMN */
 
 td:nth-child(2),
 th:nth-child(2){
-    width:35%;
-    text-align:left;
-    word-break:break-word;
-    white-space:normal;
+width:45%;
+text-align:left;
+word-wrap:break-word;
+white-space:normal;
 }
 
 /* INPUTS */
 
-input, textarea{
-    width:100%;
-    border:none;
-    outline:none;
-    text-align:center;
-    font-family:Arial;
+textarea,input{
+width:100%;
+border:none;
+outline:none;
+font-family:Arial;
+font-size:14px;
+background:transparent;
 }
 
 textarea{
-    resize:none;
-    text-align:left;
+resize:none;
+overflow:hidden;
+min-height:40px;
+text-align:left;
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+/* AUTO EXPAND TEXTAREA */
+
+textarea{
+height:auto;
+}
+
+textarea:focus{
+outline:none;
 }
 
 /* BUTTONS */
 
 .btn{
-    padding:10px 15px;
-    margin:10px 5px;
-    border:none;
-    background:#007bff;
-    color:white;
-    cursor:pointer;
-    border-radius:5px;
+padding:10px 15px;
+margin:10px 5px;
+border:none;
+background:#007bff;
+color:#fff;
+cursor:pointer;
+border-radius:5px;
 }
 
 .btn-danger{
-    background:red;
+background:red;
 }
 
 /* TOTAL */
 
 .total{
-    text-align:right;
-    font-size:18px;
-    margin-top:20px;
+text-align:right;
+font-size:18px;
+margin-top:20px;
 }
 
 /* PRINT SETTINGS */
@@ -115,50 +129,42 @@ textarea{
 @media print{
 
 body{
-    background:white;
+background:#fff;
 }
-
-/* force header color in print */
 
 .header{
-    background:#2e8b57 !important;
-    color:white !important;
-
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+background:#2e8b57 !important;
+color:#fff !important;
+-webkit-print-color-adjust:exact;
+print-color-adjust:exact;
 }
-
-/* hide buttons */
 
 .btn{
-    display:none;
+display:none;
 }
-
-/* hide action column */
 
 .action-col,
 th:last-child{
-    display:none;
+display:none;
 }
 
-/* remove placeholders */
-
-.no-print-placeholder::placeholder{
-    color:transparent;
+textarea,input{
+border:none;
+background:transparent;
 }
 
-/* clean input look */
-
-input, textarea{
-    border:none;
-    background:transparent;
-}
-
-/* wrap text */
+/* IMPORTANT FOR WRAPPING */
 
 td,th{
-    white-space:normal !important;
-    word-break:break-word !important;
+white-space:normal !important;
+word-break:break-word !important;
+overflow:visible !important;
+}
+
+/* allow page break properly */
+
+tr{
+page-break-inside:avoid;
 }
 
 }
@@ -183,7 +189,6 @@ Contact: 7796174991
 
 </div>
 
-
 <table id="billingTable">
 
 <thead>
@@ -197,8 +202,7 @@ Contact: 7796174991
 </tr>
 </thead>
 
-<tbody>
-</tbody>
+<tbody></tbody>
 
 </table>
 
@@ -210,7 +214,6 @@ Contact: 7796174991
 </div>
 
 </div>
-
 
 <script>
 
@@ -226,15 +229,15 @@ row.innerHTML=`
 <td>${rowCount+1}</td>
 
 <td>
-<textarea placeholder="Enter work" rows="2"></textarea>
+<textarea rows="2" oninput="autoGrow(this)" placeholder="Enter work details"></textarea>
 </td>
 
 <td>
-<input type="text" placeholder="Enter size" class="no-print-placeholder">
+<input type="text" placeholder="Enter size">
 </td>
 
 <td>
-<input type="number" placeholder="Rate" class="no-print-placeholder">
+<input type="number" placeholder="Rate">
 </td>
 
 <td>
@@ -251,11 +254,9 @@ row.innerHTML=`
 function deleteRow(btn){
 
 let row=btn.parentNode.parentNode;
-
 row.remove();
 
 updateSerial();
-
 calculateTotal();
 
 }
@@ -265,9 +266,7 @@ function updateSerial(){
 let rows=table.rows;
 
 for(let i=0;i<rows.length;i++){
-
 rows[i].cells[0].innerHTML=i+1;
-
 }
 
 }
@@ -275,7 +274,6 @@ rows[i].cells[0].innerHTML=i+1;
 function calculateTotal(){
 
 let total=0;
-
 let rows=table.rows;
 
 for(let i=0;i<rows.length;i++){
@@ -287,6 +285,15 @@ total+=parseFloat(amount)||0;
 }
 
 document.getElementById("total").innerHTML=total.toLocaleString("en-IN");
+
+}
+
+/* AUTO EXPAND TEXTAREA */
+
+function autoGrow(element){
+
+element.style.height="auto";
+element.style.height=(element.scrollHeight)+"px";
 
 }
 
