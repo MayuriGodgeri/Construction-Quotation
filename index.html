@@ -23,7 +23,7 @@ box-shadow:0 0 10px rgba(0,0,0,0.1);
 
 .header{
 background:#2e8b57;
-color:white;
+color:#fff;
 text-align:center;
 padding:20px;
 margin-bottom:20px;
@@ -75,14 +75,22 @@ input, textarea{
 width:100%;
 border:none;
 outline:none;
-font-family:Arial;
 background:transparent;
+font-family:Arial;
 }
 
 textarea{
 resize:none;
 overflow:hidden;
 min-height:40px;
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+/* hidden print text */
+
+.print-text{
+display:none;
 white-space:pre-wrap;
 word-break:break-word;
 }
@@ -116,14 +124,14 @@ margin-top:20px;
 @media print{
 
 body{
-background:white;
+background:#fff;
 }
 
-/* ensure header color prints */
+/* header color */
 
 .header{
 background:#2e8b57 !important;
-color:white !important;
+color:#fff !important;
 -webkit-print-color-adjust:exact;
 print-color-adjust:exact;
 }
@@ -141,25 +149,29 @@ th:last-child{
 display:none;
 }
 
-/* allow wrapping */
+/* hide textarea */
 
-td, th{
-white-space:normal !important;
-word-break:break-word !important;
-overflow-wrap:break-word !important;
+textarea{
+display:none;
 }
 
-/* allow rows to break across pages */
+/* show full text */
+
+.print-text{
+display:block;
+}
+
+/* allow wrapping */
+
+td,th{
+white-space:normal !important;
+word-break:break-word !important;
+}
+
+/* allow rows to break */
 
 tr{
 page-break-inside:auto;
-}
-
-/* ensure textarea shows full content */
-
-textarea{
-height:auto !important;
-overflow:visible !important;
 }
 
 }
@@ -202,7 +214,7 @@ Contact: 7796174991
 </table>
 
 <button class="btn" onclick="addRow()">+ Add Row</button>
-<button class="btn" onclick="window.print()">Print / Save PDF</button>
+<button class="btn" onclick="preparePrint()">Print / Save PDF</button>
 
 <div class="total">
 <strong>Total Work Charge: ₹ <span id="total">0</span></strong>
@@ -225,6 +237,7 @@ row.innerHTML=`
 
 <td>
 <textarea rows="2" oninput="autoGrow(this)" placeholder="Enter work details"></textarea>
+<div class="print-text"></div>
 </td>
 
 <td>
@@ -249,7 +262,6 @@ row.innerHTML=`
 function deleteRow(btn){
 
 let row=btn.parentNode.parentNode;
-
 row.remove();
 
 updateSerial();
@@ -287,12 +299,32 @@ document.getElementById("total").innerHTML=total.toLocaleString("en-IN");
 
 }
 
-/* auto expand textarea */
+/* textarea auto grow */
 
 function autoGrow(el){
 
 el.style.height="auto";
 el.style.height=(el.scrollHeight)+"px";
+
+}
+
+/* prepare print */
+
+function preparePrint(){
+
+let textareas=document.querySelectorAll("textarea");
+
+textareas.forEach(function(area){
+
+let text=area.value;
+
+let printDiv=area.nextElementSibling;
+
+printDiv.innerText=text;
+
+});
+
+window.print();
 
 }
 
