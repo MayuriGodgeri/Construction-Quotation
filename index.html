@@ -61,7 +61,7 @@ table th{
     background:#eee;
 }
 
-/* Particular column */
+/* PARTICULAR COLUMN */
 
 td:nth-child(2),
 th:nth-child(2){
@@ -71,14 +71,14 @@ th:nth-child(2){
     white-space:normal;
 }
 
-/* Inputs */
+/* INPUTS */
 
 input, textarea{
     width:100%;
     border:none;
     outline:none;
-    font-family:Arial;
     text-align:center;
+    font-family:Arial;
 }
 
 textarea{
@@ -86,7 +86,7 @@ textarea{
     text-align:left;
 }
 
-/* Buttons */
+/* BUTTONS */
 
 .btn{
     padding:10px 15px;
@@ -110,13 +110,25 @@ textarea{
     margin-top:20px;
 }
 
-/* PRINT STYLES */
+/* PRINT SETTINGS */
 
 @media print{
 
 body{
     background:white;
 }
+
+/* force header color in print */
+
+.header{
+    background:#2e8b57 !important;
+    color:white !important;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* hide buttons */
 
 .btn{
     display:none;
@@ -129,13 +141,13 @@ th:last-child{
     display:none;
 }
 
-/* remove placeholder */
+/* remove placeholders */
 
 .no-print-placeholder::placeholder{
     color:transparent;
 }
 
-/* clean inputs */
+/* clean input look */
 
 input, textarea{
     border:none;
@@ -168,6 +180,7 @@ Hno: 750/A Portavado, Siolim, Bardez Goa - 403517
 <div class="contact">
 Contact: 7796174991
 </div>
+
 </div>
 
 
