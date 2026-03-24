@@ -5,198 +5,278 @@
 <title>Pankaj Construction Billing</title>
 
 <style>
-body {
+
+body{
     font-family: Arial, sans-serif;
-    margin: 40px;
-    background: #f5f5f5;
+    margin:40px;
+    background:#f5f5f5;
 }
 
-.container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.container{
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 5px;
+/* HEADER */
+
+.header{
+    background:#2e8b57;
+    color:white;
+    text-align:center;
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:20px;
 }
 
-.contact {
-    text-align: center;
-    margin-bottom: 20px;
+.header h1{
+    margin:0;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.address{
+    font-size:14px;
+    margin-top:5px;
 }
 
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    vertical-align: top;
-    text-align: center;
+.contact{
+    font-size:14px;
 }
 
-table th {
-    background: #eee;
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-/* Particular column formatting */
+table th, table td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+    vertical-align:top;
+}
+
+table th{
+    background:#eee;
+}
+
+/* Particular column */
+
 td:nth-child(2),
-th:nth-child(2) {
-    width: 35%;
-    text-align: left;
-    word-break: break-word;
-    white-space: normal;
+th:nth-child(2){
+    width:35%;
+    text-align:left;
+    word-break:break-word;
+    white-space:normal;
 }
 
 /* Inputs */
-input, textarea {
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: center;
-    font-family: Arial, sans-serif;
+
+input, textarea{
+    width:100%;
+    border:none;
+    outline:none;
+    font-family:Arial;
+    text-align:center;
 }
 
-textarea {
-    resize: none;
-    text-align: left;
+textarea{
+    resize:none;
+    text-align:left;
 }
 
 /* Buttons */
-.btn {
-    padding: 10px 15px;
-    margin: 10px 5px;
-    border: none;
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
+
+.btn{
+    padding:10px 15px;
+    margin:10px 5px;
+    border:none;
+    background:#007bff;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
 }
 
-.btn-danger {
-    background: red;
+.btn-danger{
+    background:red;
 }
 
-.total {
-    text-align: right;
-    font-size: 18px;
-    margin-top: 20px;
+/* TOTAL */
+
+.total{
+    text-align:right;
+    font-size:18px;
+    margin-top:20px;
 }
 
 /* PRINT STYLES */
-@media print {
 
-    body {
-        background: #fff;
-    }
+@media print{
 
-    .btn {
-        display: none;
-    }
-
-    /* Hide action column */
-    .action-col,
-    th:last-child {
-        display: none;
-    }
-
-    /* Remove placeholders */
-    .no-print-placeholder::placeholder {
-        color: transparent;
-    }
-
-    /* Clean look */
-    input, textarea {
-        border: none;
-        background: transparent;
-    }
-
-    /* Ensure wrapping in print */
-    td, th {
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
+body{
+    background:white;
 }
+
+.btn{
+    display:none;
+}
+
+/* hide action column */
+
+.action-col,
+th:last-child{
+    display:none;
+}
+
+/* remove placeholder */
+
+.no-print-placeholder::placeholder{
+    color:transparent;
+}
+
+/* clean inputs */
+
+input, textarea{
+    border:none;
+    background:transparent;
+}
+
+/* wrap text */
+
+td,th{
+    white-space:normal !important;
+    word-break:break-word !important;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>Pankaj Construction</h1>
-    <div class="contact">Contact: 7796174991</div>
 
-    <table id="billingTable">
-        <thead>
-            <tr>
-                <th>Sr No</th>
-                <th>Particular</th>
-                <th>Size</th>
-                <th>Rate</th>
-                <th>Amount</th>
-                <th class="action-col">Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<div class="header">
+<h1>Pankaj Construction</h1>
 
-    <button class="btn" onclick="addRow()">+ Add Row</button>
-    <button class="btn" onclick="window.print()">Print / Save PDF</button>
-
-    <div class="total">
-        <strong>Total Work Charge: ₹ <span id="total">0</span></strong>
-    </div>
+<div class="address">
+Hno: 750/A Portavado, Siolim, Bardez Goa - 403517
 </div>
 
+<div class="contact">
+Contact: 7796174991
+</div>
+</div>
+
+
+<table id="billingTable">
+
+<thead>
+<tr>
+<th>Sr No</th>
+<th>Particular</th>
+<th>Size</th>
+<th>Rate</th>
+<th>Amount</th>
+<th class="action-col">Action</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+
+<button class="btn" onclick="addRow()">+ Add Row</button>
+<button class="btn" onclick="window.print()">Print / Save PDF</button>
+
+<div class="total">
+<strong>Total Work Charge: ₹ <span id="total">0</span></strong>
+</div>
+
+</div>
+
+
 <script>
-let table = document.getElementById("billingTable").getElementsByTagName('tbody')[0];
 
-function addRow() {
-    let rowCount = table.rows.length;
-    let row = table.insertRow();
+let table=document.getElementById("billingTable").getElementsByTagName('tbody')[0];
 
-    row.innerHTML = `
-        <td>${rowCount + 1}</td>
-        <td><textarea placeholder="Enter work" rows="2"></textarea></td>
-        <td><input type="text" placeholder="Enter size" class="no-print-placeholder"></td>
-        <td><input type="number" placeholder="Rate" class="no-print-placeholder"></td>
-        <td><input type="number" value="0" oninput="calculateTotal()"></td>
-        <td class="action-col">
-            <button class="btn btn-danger" onclick="deleteRow(this)">X</button>
-        </td>
-    `;
+function addRow(){
+
+let rowCount=table.rows.length;
+
+let row=table.insertRow();
+
+row.innerHTML=`
+<td>${rowCount+1}</td>
+
+<td>
+<textarea placeholder="Enter work" rows="2"></textarea>
+</td>
+
+<td>
+<input type="text" placeholder="Enter size" class="no-print-placeholder">
+</td>
+
+<td>
+<input type="number" placeholder="Rate" class="no-print-placeholder">
+</td>
+
+<td>
+<input type="number" value="0" oninput="calculateTotal()">
+</td>
+
+<td class="action-col">
+<button class="btn btn-danger" onclick="deleteRow(this)">X</button>
+</td>
+`;
+
 }
 
-function deleteRow(btn) {
-    let row = btn.parentNode.parentNode;
-    row.remove();
-    updateSerial();
-    calculateTotal();
+function deleteRow(btn){
+
+let row=btn.parentNode.parentNode;
+
+row.remove();
+
+updateSerial();
+
+calculateTotal();
+
 }
 
-function updateSerial() {
-    let rows = table.rows;
-    for (let i = 0; i < rows.length; i++) {
-        rows[i].cells[0].innerHTML = i + 1;
-    }
+function updateSerial(){
+
+let rows=table.rows;
+
+for(let i=0;i<rows.length;i++){
+
+rows[i].cells[0].innerHTML=i+1;
+
 }
 
-function calculateTotal() {
-    let total = 0;
-    let rows = table.rows;
-
-    for (let i = 0; i < rows.length; i++) {
-        let amount = rows[i].cells[4].children[0].value;
-        total += parseFloat(amount) || 0;
-    }
-
-    document.getElementById("total").innerHTML = total.toLocaleString("en-IN");
 }
+
+function calculateTotal(){
+
+let total=0;
+
+let rows=table.rows;
+
+for(let i=0;i<rows.length;i++){
+
+let amount=rows[i].cells[4].children[0].value;
+
+total+=parseFloat(amount)||0;
+
+}
+
+document.getElementById("total").innerHTML=total.toLocaleString("en-IN");
+
+}
+
 </script>
 
 </body>
