@@ -33,13 +33,31 @@ margin-bottom:20px;
 margin:0;
 }
 
-.address{
-font-size:14px;
-margin-top:5px;
+/* BILL DETAILS */
+
+.bill-info{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+gap:20px;
+flex-wrap:wrap;
 }
 
-.contact{
-font-size:14px;
+.bill-info div{
+flex:1;
+}
+
+.bill-info label{
+font-weight:bold;
+display:block;
+margin-bottom:5px;
+}
+
+.bill-info input{
+width:100%;
+padding:6px;
+border:1px solid #ccc;
+border-radius:4px;
 }
 
 /* TABLE */
@@ -61,17 +79,14 @@ background:#eee;
 
 /* PARTICULAR COLUMN */
 
-td:nth-child(2),
-th:nth-child(2){
+td:nth-child(2){
 width:45%;
-text-align:left;
 word-break:break-word;
-white-space:normal;
 }
 
 /* INPUTS */
 
-input, textarea{
+textarea,input{
 width:100%;
 border:none;
 outline:none;
@@ -84,10 +99,9 @@ resize:none;
 overflow:hidden;
 min-height:40px;
 white-space:pre-wrap;
-word-break:break-word;
 }
 
-/* hidden print text */
+/* PRINT TEXT */
 
 .print-text{
 display:none;
@@ -119,15 +133,21 @@ font-size:18px;
 margin-top:20px;
 }
 
-/* PRINT STYLES */
+/* PRINT */
 
 @media print{
 
-body{
-background:#fff;
+.btn{
+display:none;
 }
 
-/* header color */
+textarea{
+display:none;
+}
+
+.print-text{
+display:block;
+}
 
 .header{
 background:#2e8b57 !important;
@@ -136,39 +156,10 @@ color:#fff !important;
 print-color-adjust:exact;
 }
 
-/* hide buttons */
-
-.btn{
-display:none;
-}
-
-/* hide action column */
-
 .action-col,
 th:last-child{
 display:none;
 }
-
-/* hide textarea */
-
-textarea{
-display:none;
-}
-
-/* show full text */
-
-.print-text{
-display:block;
-}
-
-/* allow wrapping */
-
-td,th{
-white-space:normal !important;
-word-break:break-word !important;
-}
-
-/* allow rows to break */
 
 tr{
 page-break-inside:auto;
@@ -185,16 +176,32 @@ page-break-inside:auto;
 
 <div class="header">
 <h1>Pankaj Construction</h1>
-
-<div class="address">
-Hno: 750/A Portavado, Siolim, Bardez Goa - 403517
+<div>Hno: 750/A Portavado, Siolim, Bardez Goa - 403517</div>
+<div>Contact: 7796174991</div>
 </div>
 
-<div class="contact">
-Contact: 7796174991
+
+<!-- BILL DETAILS -->
+
+<div class="bill-info">
+
+<div>
+<label>Bill Number</label>
+<input type="text" placeholder="Enter Bill Number">
+</div>
+
+<div>
+<label>Date</label>
+<input type="date">
+</div>
+
+<div>
+<label>Client / Site Name</label>
+<input type="text" placeholder="Enter Client or Site Name">
 </div>
 
 </div>
+
 
 <table id="billingTable">
 
@@ -241,7 +248,7 @@ row.innerHTML=`
 </td>
 
 <td>
-<input type="text" placeholder="Enter size">
+<input type="text" placeholder="Size">
 </td>
 
 <td>
@@ -299,16 +306,12 @@ document.getElementById("total").innerHTML=total.toLocaleString("en-IN");
 
 }
 
-/* textarea auto grow */
-
 function autoGrow(el){
 
 el.style.height="auto";
 el.style.height=(el.scrollHeight)+"px";
 
 }
-
-/* prepare print */
 
 function preparePrint(){
 
@@ -317,7 +320,6 @@ let textareas=document.querySelectorAll("textarea");
 textareas.forEach(function(area){
 
 let text=area.value;
-
 let printDiv=area.nextElementSibling;
 
 printDiv.innerText=text;
