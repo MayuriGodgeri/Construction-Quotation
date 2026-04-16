@@ -81,6 +81,7 @@ width:100%;
 padding:6px;
 border:1px solid #ccc;
 border-radius:4px;
+box-sizing:border-box;
 }
 
 /* TABLE */
@@ -115,6 +116,7 @@ border:none;
 outline:none;
 background:transparent;
 font-family:Arial;
+font-size:14px;
 }
 
 textarea{
@@ -122,45 +124,6 @@ resize:none;
 overflow:hidden;
 min-height:40px;
 white-space:pre-wrap;
-}
-
-.form-row{
-display:grid;
-grid-template-columns: repeat(4, 1fr);
-gap:15px;
-margin-bottom:20px;
-}
-
-.form-row input{
-width:100%;
-height:40px;
-padding:6px 10px;
-border:1px solid #ccc;
-border-radius:6px;
-box-sizing:border-box;
-font-size:14px;
-}
-
-input[type="date"]{
-appearance:none;
--webkit-appearance:none;
-}
-
-/* MOBILE FIX */
-@media (max-width:768px){
-
-.form-row{
-grid-template-columns: repeat(2, 1fr);
-}
-
-}
-
-@media (max-width:480px){
-
-.form-row{
-grid-template-columns: 1fr;
-}
-
 }
 
 /* PRINT TEXT */
@@ -195,7 +158,7 @@ font-size:18px;
 margin-top:20px;
 }
 
-/* PRINT */
+/* PRINT MODE */
 
 @media print{
 
@@ -203,7 +166,8 @@ margin-top:20px;
 display:none;
 }
 
-textarea{
+textarea,
+input{
 display:none;
 }
 
@@ -238,7 +202,7 @@ page-break-inside:auto;
 <div class="header-text">
 <h1>PANKAJ CONSTRUCTION</h1>
 <div>Hno: 750/A Portavado, Siolim, Bardez Goa - 403517</div>
-<div>Contact: 9049159961/ 7796174991</div>
+<div>Contact: 9049159961 / 7796174991</div>
 </div>
 
 </div>
@@ -251,23 +215,29 @@ page-break-inside:auto;
 <div>
 <label>Bill Number</label>
 <input type="text">
+<span class="print-text"></span>
 </div>
 
 <div>
 <label>Date</label>
-<input type="date">
-</div>
+<input type="date" id="billDate">
+<span class="print-text" id="printDate"></span>
 </div>
 
-<div class="bill-info"> 
+</div>
+
+<div class="bill-info">
+
 <div>
 <label>Client Name</label>
 <input type="text">
+<span class="print-text"></span>
 </div>
-  
+
 <div>
-<label>Quatation for </label>
+<label>Quotation for</label>
 <input type="text">
+<span class="print-text"></span>
 </div>
 
 </div>
@@ -319,14 +289,17 @@ row.innerHTML=`
 
 <td>
 <input type="text">
+<span class="print-text"></span>
 </td>
 
 <td>
 <input type="number">
+<span class="print-text"></span>
 </td>
 
 <td>
 <input type="number" value="0" oninput="calculateTotal()">
+<span class="print-text"></span>
 </td>
 
 <td class="action-col">
@@ -383,6 +356,8 @@ el.style.height=(el.scrollHeight)+"px";
 
 function preparePrint(){
 
+/* TEXTAREA TO TEXT */
+
 let textareas=document.querySelectorAll("textarea");
 
 textareas.forEach(function(area){
@@ -393,6 +368,40 @@ let printDiv=area.nextElementSibling;
 printDiv.innerText=text;
 
 });
+
+/* INPUTS TO TEXT */
+
+let inputs=document.querySelectorAll(".bill-info input");
+
+inputs.forEach(function(input){
+
+let span=input.nextElementSibling;
+
+if(span){
+span.innerText=input.value;
+}
+
+});
+
+/* DATE FIX FOR IOS */
+
+let dateInput=document.getElementById("billDate");
+
+if(dateInput.value){
+
+let d=new Date(dateInput.value);
+
+let day=String(d.getDate()).padStart(2,'0');
+let month=String(d.getMonth()+1).padStart(2,'0');
+let year=d.getFullYear();
+
+let formatted=day+"-"+month+"-"+year;
+
+document.getElementById("printDate").innerText=formatted;
+
+}
+
+/* PRINT */
 
 window.print();
 
