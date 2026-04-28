@@ -356,50 +356,62 @@ el.style.height=(el.scrollHeight)+"px";
 
 function preparePrint(){
 
-/* TEXTAREA TO TEXT */
+/* TEXTAREA → PRINT TEXT */
 
-let textareas=document.querySelectorAll("textarea");
+document.querySelectorAll("textarea").forEach(function(area){
 
-textareas.forEach(function(area){
-
-let text=area.value;
-let printDiv=area.nextElementSibling;
-
-printDiv.innerText=text;
-
-});
-
-/* INPUTS TO TEXT */
-
-let inputs=document.querySelectorAll(".bill-info input");
-
-inputs.forEach(function(input){
-
-let span=input.nextElementSibling;
-
-if(span){
-span.innerText=input.value;
+let printDiv = area.nextElementSibling;
+if(printDiv){
+printDiv.innerText = area.value;
 }
 
 });
+
+
+/* BILL INFO INPUTS → PRINT TEXT */
+
+document.querySelectorAll(".bill-info input").forEach(function(input){
+
+let span = input.nextElementSibling;
+
+if(span){
+span.innerText = input.value;
+}
+
+});
+
+
+/* TABLE INPUTS → PRINT TEXT */
+
+document.querySelectorAll("#billingTable input").forEach(function(input){
+
+let span = input.nextElementSibling;
+
+if(span){
+span.innerText = input.value;
+}
+
+});
+
 
 /* DATE FIX FOR IOS */
 
-let dateInput=document.getElementById("billDate");
+let dateInput = document.getElementById("billDate");
 
 if(dateInput.value){
 
-let d=new Date(dateInput.value);
+let d = new Date(dateInput.value);
 
-let day=String(d.getDate()).padStart(2,'0');
-let month=String(d.getMonth()+1).padStart(2,'0');
-let year=d.getFullYear();
+let day = String(d.getDate()).padStart(2,'0');
+let month = String(d.getMonth()+1).padStart(2,'0');
+let year = d.getFullYear();
 
-let formatted=day+"-"+month+"-"+year;
+let formatted = day + "-" + month + "-" + year;
 
-document.getElementById("printDate").innerText=formatted;
+document.getElementById("printDate").innerText = formatted;
 
 }
+
 
 /* PRINT */
 
